@@ -1,0 +1,115 @@
+---
+title: "Calibration of CPAT"
+author: "Alexandra Campmas"
+date: "18/04/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Calibration of CPAT
+
+### Objective
+
+The objective of this exercise is to calibrate the time trend (i.e. the autonomous efficiency improvement) of the mitigation equation used in CPAT:
+
+$$
+F_t = F_{(t-1)} (1+\alpha)^{-(1+\epsilon_{use})}\frac{Y_t}{Y_{(t-1)}}^{\epsilon_{inc}}\frac{p_t}{p_{(t-1)}}^{\epsilon_{use}}\frac{p_t}{p_{(t-1)}}^{\epsilon_{eff}(1+\epsilon_{use})},
+$$
+where last year fuel consumption is denoted $F_{(t-1)}$, the autonomous annual energy efficiency improvement is captured by $\alpha$, the GDP effect is $(\frac{Y_t}{Y_{(t-1)}})^{\epsilon_{inc}}$, the instantaneous price effect on the usage of final goods and services and efficiency effect reflected respectivelly in $(\frac{p_t}{p_{(t-1)}})^{\epsilon_{use}}$ and $(\frac{p_t}{p_{(t-1)}})^{{\frac{\epsilon_{eff}(1+\epsilon_{use})}}$. Both autonomous and price-driven efficiency components are subject to rebound effects given by raising to the power of $(1+\epsilon_{use})$, where $\epsilon_{use}$ is negative. All quantities have implicit indices for fuel type $f$, country $j$, and sector $s$. 
+
+### Methodology 
+  
+#### Description of the data employed
+
+Different steps to be performed: 
+  1. Build the "D matrix":
+    a. Timeframe: 1990-2019.
+    b. Data (mitigation equation): Energy consumption, prices, GDP, elasticities (constant), emission factors (constant)
+  
+#### Calibration process
+
+The calibration process is two step.
+
+In the first step, we aim to calibrate the time trend based on observed and projected data, that is within an observed sample. 
+
+This calibration is based on the energy consumption data for which we have both observed and projected data. As it is important to understand how the autonomous efficiency improvement behaves across time, the calibration of the time trend is processed by determining the ratio (i.e. the distance) between the observed and projected data point for each year, as follows: 
+$$
+\alpha = \Bigg(\frac{EC_{obs}}{EC_{proj}}\Bigg)^{1/t} - 1,
+$$
+where $EC_{obs}$ denotes the observed energy consumption and $EC_{proj}$ the projected energy consumption. The variable $t$ varies from 1 to 29 as it represents the number of years for which we have observations.
+
+```{r}
+
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
+
+library(tidyverse)
+library(magrittr)
+library(readxl)
+
+D  <- readRDS('DforCalibration')
+
+#Create "traditional" residuals
+  #resid.dat   <- (D$ec - D$ec.obs)^2
+  #resid.id    <- D %>% select(CountryCode,SectorCode, FuelType)
+  #resid       <- tibble(resid.id, resid.dat)
+
+
+# I - Residuals: observed vs. projected data
+  # 1. Need to aggregate the energy consumption for each year (sum of all energy consumption for all countries per year for ec and ec.obs)
+
+# We end up with two vectors: ec and ec.obs, aggregated at the world level
+ec_w       <- colSums(D$ec, na.rm = T)
+
+ec_w_obs   <- colSums(D$ec.obs, na.rm = T)
+
+  # 2. Need to extract new vectors for ec and ec.obs
+      # Predicted (ec): 1991 to 2019
+
+ec_w_red   <- ec_w[-(1:1)]
+
+      # Actual (ec.obs): 1990 to 2018
+
+ec_w_obs_red   <- ec_w_obs[-(30:30)]
+
+  # 4. Compute the weighted residual mean: (Actual/Predicted)^(1/29) - 1
+
+t   <- 1:29
+
+Res <- (ec_w_obs_red/ec_w_red)^(1/t) - 1
+
+```
+
+
+In the second step, we aim to obtain out of sample results by regressing CPAT projected data on the GDP per capita. At this stage, prices are considered as constant over the time period; they are thus not factored in in the regressions.
+
+  2. Create residuals in terms of time trend within the sample (observed vs. predicted data): 
+    a. Need to have all variables of the mitigation equation (obviously, except time trend). In this first stage, prices are ignored and considered as constant.
+    b. For each year: Fit the projected data against the observed ones to obtain residuals. 
+    c. Analyse the residuals: weighted mean residual (weight: energy consumption?) expressed in time trend form: $\frac{Actual}{Prediction}^{1/19}$ if period is over 29 years (i.e. starting year is 1990 and final year is 2019).
+    
+  3. Predict residuals when regressing on GDP (and prices?)
+
+  
+  
+### 1. Build the "D matrix"
+
+The D matrix is a dataset that contains all relevant elements to compute the mitigation equation, this is to say, to project energy consumption for each country-sector-fuel combination. Its main feature is that it stores data in "column matrix" form, in such a way that all variables are expanded and arranged into equal-dimensions matrices, each of which is stored under a single column of a "tibble" type of R object. This makes referencing easier and allows for the use of both matrix or standard operators for calculations.
+
+For this exercise, the D matrix covers the 1990-2019 time frame. Aside from all variables and parameters needed for the mitigation equation, the matrix also includes historical information on energy consumption, as well as multiple measures of GDP (constant vs current prices, domestic vs foreign currency, global vs per capita) used in subsequent steps to explain the residuals between projected and observed energy consumption.
+
+To build the matrix, the following sources where used:
+
+  - Identificators (country, sector and fuel codes): Taken from latest available conventions from CPAT.
+  - Parameters (elasticities, emission factors, covid adjustments): CPAT.
+  - GDP related variables: IMF-WEO (Oct-2021).
+  - Observed energy consumption: CPAT transformations based on IEA's energy balances.
+  - After-tax prices: Retail prices from IMF-provided historical data on prices and subsidies. No additional carbon tax was assumed (partial-hindcasting exercise).
+  
+A first coverage target was established by creating all possible combinations of country-sector-fuel codes for all of these variables. The resulting matrix has been filtered to keep only countries-sectors-fuels for which there exists all required information for the mitigation equation. It should be noted, that all calculations have been done using the R form of the mitigation equation, based on the CPAT-Excel inputs.
+
+
+  

@@ -1,0 +1,38 @@
+---
+title: "Tibble Matrix SQL"
+author: "Arkadi Avanesyan"
+date: "`r Sys.Date()`"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Background
+
+CPAT data is programmed as tibble-matrix R object 
+
+Example of a tibble matrix object we pre-loaded called data_input
+
+
+```{r}
+tbm <- readRDS("data_input.RDS")
+```
+
+The tibble-matrix above contains 15 columns if we check the colnames
+
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

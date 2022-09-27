@@ -1,0 +1,18 @@
+---
+title: "Risk And Climate"
+author: "Stephen Stretton"
+date: "`r Sys.Date()`"
+output: slidy_presentation
+---
+
+# Welcome
+
+- Why Risk and Climate
+
+The SECI Model
+
+The SECI (Solar Energy Corporation of India) model is simple. Interpose a high rated counterparty between the offtaker and the project developer. That means that the project developer can borrow at a lower rate. This creates a higly rated stream of revenues that can 'back' sovereign-rated bonds.
+
+
+-------------
+

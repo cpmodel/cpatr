@@ -1,0 +1,761 @@
+---
+title: "ContentMeetingsNotes"
+author: "Stephen Stretton"
+date: "5/20/2022"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+Future projects-high priority
+Political dynamics of carbon pricing in a transitional context with a focus on feebates
+Conditional NDCs: derisking, financing and concrete decarbonisation plans
+Macroeconomics of the green transition and the link between derisking and institutions: The derisking requirements of macro-economic institutions and GDP effect of needed investment
+How can transnational incentives be created to ensure emissions are retained within safe boundaries?
+
+
+My overall expansive vision would be to show the financing and policy pathway and macroeconomics of high investment rapid decarbonisation pathways
+
+And then how the transnational incentives can be created (WB lending, climate club etc)
+
+There are may tools developed at the WB on this... But this is mainly at the project level (this is from the course I followed today). There was nothing at the country level. 
+
+Country Level Investment Policy-Programme Emission Reduction Spreadsheet
+
+
+
+Update on where they stand with modelling this
+We will share this internally with other Fin Sector colleagues.
+Model extensions.
+Sectoral independent. How can we improve these assumptions?
+Real investment side.
+
+
+TODAY
+-----
+
+0) Write down the plan for the next year of CPAT-related work (ie T2B) (Friday, but with simplified plan Sunday)
+
+1) Rough presentation for Mehnaz and Emilia
+- Carbon pricing in the power sector.
+- Financing options - unblocking at-scale financing for green finance.
+Update the exact processes of the carbon tax in the power sector - who is charged, and how the money is refunded. (Thurs)
+
+2) Rough presentation for Dirk etc
+
+Trillions To Billions Plan:
+- R based investment tool
+- Based on FTT.
+- Gives bottom line for countries.
+- Project-style financial analysis scaled-up to country analytics
+
+3) Upgrade CPAT in relation to maximum RE scale up rates, and do supporting analysis (Tuesday) DONE
+
+4) Minor updates to the documentation for CPAT including now the PPA % option (Tuesday)
+
+5) Finalise and send CPAT and documentation to the chief economist office. (Wed)
+
+6) Update the exact processes of the carbon tax in the power sector - who is charged, and how the money is refunded. (Thurs) IN PROGRESS
+
+7) Write down the plan for the next year of CPAT-related work (ie T2B) (Friday, but with simplified plan Sunday)
+- Urgent: Read through the documentation.
+show how countries can finance climate change in an online model and then what benefits it can bring to them.
+
+Need clear terms of reference on any country engagement. Use final CPAT and provide videos. They use it not us. Friendly TOR.We do T2B which includes a simple tool to help people focused on the financing and policy changes needed. Global CPAT should allow cutting edge global analysis of financing strategies as well as clubs. Include the investment needed at a national level and its financial cost.
+
+ 
+
+# Ideas
+1. Quick plan of work for four key reports
+- Quick structure to role of the state paper
+- Derisking paper structure
+
+
+2. Quick Paper on The Role of State and Market in the Low Carbon Transition
+- Short half pager to begin
+- Three Investment Areas
+- Different structures in each
+
+3. Quick Paper on 'Unpicking Derisking'
+- Short half pager to begin
+- Key concepts PPA
+
+4. CCDR Strategy
+- Net Zero strategy to begin with.
+- What financial policy
+- What tools and analytics to add?
+
+5. Develop quick half pager on Feebates - Meditate and read existing papers. Write abstract.
+
+# Green Stimulus Institutions
+
+## Institutionalisation of Green Stimulus
+- How can we institutionalize green stimulus? The MDBs such as the WB could have a key in that. I am thinking of something like the need for a green infrastructure plan, including longer term infrastructure and shorter term shovel-ready projects. Could we be making the same mistake now, in the sense that we aren't sufficiently encouraging and derisking the strategic investments needed? So perhaps there is a need for institutional change here?
+
+Could I ask the panel to comment on how can we institutionalise green stimulus into Macro policy making processes?
+
+# Conditional NDCs
+- Conditional NDCs: a framework for financing to ensure each country has a 1.5C-consistent plan.
+- Propose a blended equity fund to:
+a) Cofinance Renewable Energy projects
+b) Provide a risk buffer for the debt
+The debt would be integrated into macroeconomic policy making.
+
+## Net Asset Position
+- Many countries care not only about GDP but also their development (net asset) position. Usually fiscal stimulus has a trade off - stimulate the economy but then increase net imports and/or reduce government net assets. But climate related investments often have positive impacts on both sides of this trade-off and this is in my opinion insufficiently stressed. is there any way that we can think more about the position on the net assets-GDP growth trade off rather than single isolated aggregates like GDP or gross debt alone.
+
+## Carbon Price at Sectoral Level
+
+I think some of the discussion of carbon pricing could also be enhanced by thinking about the relevant sectors (eg power, transport, industry, buildings). These have very different needs and different policy requirements based on underlying assumptions. The assumptions involve very different magnitude of relative price effect: say coal (for a moderate carbon pricing could mean a tripling in carbon pricing) vs transport fuels increase), myopic versus perfect optimizing (with implications as to whether we should be increasing power prices), State Owned Enterprise vs Mrkt, deep decarbonisation (electrification/hydrogen - with implications on the power price) vs marginal. There's a risk that the barriers on the coal dependent sectors become a 'speed limit' on carbon pricing. Do you agree? How can we actually put together a richer set of carbon pricing policies that gets round the speed limit.
+
+## Power as a Public-Private Intermediate Sector
+
+There's a lot of focus on public and private sectors, but there is an intermediate - the power sector. In the power sector, much new investment can be through 'independent power projects' these need state-MDB certainty, yet is 'covered' by the payments from electricity that they produce. So risk reduction is needed, but yet investment here need not impact government debt or risk.
+
+## An 'IBRD-like' scaling up capability.
+
+Question 1: The WBG has a balance sheet but also has various *capabilities* (eg project appraisal). Within the WBG we have various 'business models' (IBRD, MIGA, IFC) which rely on our capabilities and our strategic advantages (for example IBRD one advantage might be the long term relationship). For example we could derisk via MIGA which then reinsures the risk, or via IBRD which has a sovereign indemnification. When we think of our capabilities rather than simply a fixed quantity of lending, how does the optimization adjust? Where are the opportunities for *financial profitability* (meaning using our capabilities rather than our balance sheet). This would then distinguish between opportunities that use scarce balance sheet and those that do not.
+Underlying IBRD, MIGA and IFC are functional business models. IBRD: borrow at AAA ratings, and lend that to lower rating middle income countries. Use the long term relationship ('ledger') with a country to get back the money that was lent. MIGA: insure against political Risk.
+
+## Investment Models
+Question: I found the dynamic model super interesting. A few clarifying questions: is there any (implicit) 'short run' investment cost curve (short run in the sense that the second order factories to produce capital goods are fixed)? Does the framework include learning curves? Is it a global (in the sense of the planet) optimisation framework or one for specific countries? Is the model something that is available to countries as a sort of tool?
+
+Thanks very much for a super exciting presentation and sorry for my ignorance of the following: I found the dynamic model super interesting. A few clarifying questions: is there any (implicit) 'short run' investment cost curve (short run in the sense that the second order factories to produce capital goods are fixed)? Does the framework include learning curves? Is it a global (in the sense of the planet) optimisation framework or one for specific countries? Is the model something that is available to countries as a sort of tool?
+
+Could you please spend a bit more time on private sector participation and finance: Unless there is an overarching incentive system in place (e.g. carbon price or performance standards etc.), there will be very few investment opportunities that are cost competitive at current costs of carbon. This applies certainly for adaptation (public good character) but also to mitigation measures. Essentially predicable and risk adjusted cash flow opportunities are missing (in addition to sector specific constraints, e.g. feed in tariffs etc.  Private sector blended finance could help, but is only useful if it creates a markets / is transformative. Hence, isn’t it surprising that the private capital mobilization remains way below expectations? 
+
+##Strategic Incentives
+The theory of strategic incentives seems to be an important point: climate change being a multi level problem. There's not much on the game theory of climate action (intracountry and intercountry). Also political economy often blocks any action, understanding the constraints important. 
+
+A key macro-financial understanding is that of risk and how that affects financing and financing cost. That seems to be vital but rather limited/
+Macroeconomic benefits in relation to the Chinese growth model
+Pollution benefits: does the paper capture these effectively
+Parallel transition
+Direct relation between Chinese actions and the 
+Supply chain requirements for electric car roll-out: is there enough lithium?
+On green manufacturing, https://green-transition-navigator.org/
+# Outcompeting fiscal and monetary policy 
+
+On what grounds should be here assess macroeconomic policy well one ground this is affectedness another is it response in this financial conservatism could be a third characteristic so affectedness responsiveness and financial conservatism what I mean by these well micro policy tends to involve wishing for growth and location and financial stability those How do you mystics are then deployed by the traditional means of them macroeconomic policy fiscal policy they balance between government spending and I'm a taxation revenue and am fiscal policy which I am monetary policy which involves changing interest rates and are both at the short and sometimes a log end of the war curve by Matthew from market operations and recently I am quantitative easing meaning buying long-term bonds which reduces long-term interest rates so those two polyps Please can be assessed in terms of their affect on acid positions of a prudent in terms of asset positions and they could also be assessed in terms of their affectedness at them in the Hansing I'm gross national and national ghost GP and they can also be of assistance financial stability grounds well let's just go through them and go on spending it it's effective at stability growth that in a recession but it doesn't necessarily build assets are can-do but not always and and its affect on financial stability well if it increases the government debt I'm going to necessarily get any compensating acid for the increase in debt and 
+
+# International Sollar-Coin
+Separate from the creation of bond and equity instruments, another approach would be to use the network of solar parks described above to allow investors to purchase individual solar panels located in those parks. The purchase of such a panel would entitle the purchaser to the revenues from that scheme, less a small fee paid to the solar park developer. The asset created would be a solar-backed asset similar to gold or bitcoin. This idea is detailed further in a separate paper.
+
+
+# Derisking as an Alternative Framing of International Negotiations
+The scheme could also form a basis for a form of international negotiations. International donors would derisk and therefore mobilize capital, and in exchange, governments would agree to scale up their solar economy. The ‘masterplan-derisk-finance’ scheme, partnered with coordinated carbon pricing, could be a powerful alternative to the incumbent ‘pledge-and-review’ system of international climate negotiations. This idea is covered in a separate paper.
+Solar Green Stimulus through Central Bank Action
+We believe that debt derisking and blended initial equity financing could be relevant to policymakers. It can allow a coordinated, green stimulus within the financial prudence characteristics of financial institutions and could contribute to the evolution of practical and green macroeconomic policy. At present, governments don’t have good ways to stimulate the economy with approaches that both a) respect their fiscal constraints and b) have desirable distributional effects. Fiscal deficits use up scarce fiscal space. Reduced interest rates may increase inequality and also reduce the strength of the economy. Yet central banks cannot easily participate in purchasing tangible assets due to risk and market distortion worries. The issuance of derisked sovereign-guaranteed green bonds that the central banks could buy simultaneously gives the central bank a stimulating intervention that builds up the asset base yet does not reduce fiscal space or increase inequality.
+Here, the innovation recognizes the risk constraints of central banks and tailors the instrument (green bonds) to suit their conditions (i.e., they are liquidity institutions not willing to bear credit risk). Yet we know the crucial role that central banks can play in reducing spreads (see for example the ECB’s ‘whatever it takes’ intervention in the Greek debt crisis).
+
+
+# Derisking and Guarantees
+## Existing Work Practice and Proposals
+-	What is Derisking
+-	What is blended finance
+-	UN Derisking work
+-	International frameworks: Pledge and review (COP), IMF initiative on carbon floor price—gap with finance not covered.
+-	Proposals for bringing it together
+-	World Bank, IMF, and OECD, 2011, Mobilizing climate finance, A Paper prepared at the request of G20 Finance Ministers, Washington, DC, and Paris, France
+-	Background: Stylized Facts and Opportunities 
+
+## Discussion with Klaus
+Reliability of the policy itself.
+Partial risk guarantees.
+Big picture: guarantee off take; share payments with the financier; de-risking the private investment through public co financing.
+Carbon Linked Bonds - channel it directly to the financier.
+Various structures - I suggested one
+Project financing - public entities involved. Crowd in more equity. Take a part of risks alreadfy. 
+Public financial project
+Mezzanine financing idea.
+IPEX bank - KfW's IFC renewable - financial products similar to what I am suggesting.
+ClimaFin tool - type of operation it could model into the tool. All is translatable into the impact channel. Tool simulate structure with other. This is an example to how to combine maximum inputs. Within the limits of financial products.
+- Write on Private Capital Mobilisation - working groups on that. Research on the right person, if there is space to blueprint concepts.
+- Link it to ongoing to an initiative. 
+- Taxonomy of taxation relevant channels in the real economy.
+- Impact channel mapping, Do the mapping. Laying out using a protoype.
+Cecilia - on TCAF and transport. Large flagship transport ASA. 
+
+MAKE ARGUMENTS - Mechanics of derisking.
+- What risks are you derisking?
+Technologies 
+Pension funds Tone down the bonds being purchased. Safer investments 
+Available derisking tools.
+Review has thought
+Need for capital in the developing countries
+Risks are well known
+
+## MIGA Energy
+Private projects. Private investment or debt. IPPs. Big shift: fewer IPPs online. Covid depressed demand. Debt sustainability. Backstopping. Countries are distracted. 
+Coming forward: off grid activity. Mini grids and captive power. Directly to a community and an industrial estate. Where there is an existing business. 
+Decarbonation: Dimitrious Papendopolous. Coal plant decommissioning.  
+
+Country Diagnostic. Target country or transition. Egypt. South Africa. - Here's a country to take something forward. We could help with how you could structure the deal, that reflects that country. Use that as a . Stress te
+Escom - National Treasury. Very open. Egypt.
+
+- Operations new deals, managing new deals, finance department - pricing model, reinsurance balance sheet risk; economics and sustainability (teams: country risk, macro situation; integrity kyc; environmental and social group, separate team that looks at climate risks). Introduce to the guy - how we look at these sorts of issues.
+Economic - look at the tariff - is this reducing the cost of energy in this location? 
+Baseload and peaking; limit of what renewable can do on their own. Return in the cash flow.
+Bank get capital. 
+
+Huge void between what the government should be doing
+Private sector window
+Derisk the investments for the private sector
+IDA takes all the risk [In my case WBG is an intermediate]
+IFC comes in with the Private
+
+
+# More on MIGA
+Structure:
+- Operations (underwriters - inv off)
+- Legal Department (advise on operations and take care of claims)
+- Finance and Risk team (modeling for the pricing of guarantees - reinsurance; SOE)
+- Economics and Sustainability (incl integrity)- dev effectiveness and country risk; country teams; 
+- Evaluation team – we work with the other units with other units - methodological advice.
+
+Sandro, climate risk,  climate monitoring. EFI, report produced earlier this year.
+Office of risk management; Relative pricing models; Risk; Inter African Develop
+Climate Risk Certification: How MIGA can help. Political risk insurance. I want to invest. Political risk. Offer longer tenors. 
+Tina river: Helped the private investor in the hydro plant, Providing concessional finance.
+Relative new product: Credit enhancement. Insuring against non-honoring of financial obligations. Ensure the lender against the SOE.
+Paris aligned : Anything on our end is put as climate finance. By 2023 85% Paris Aligned. Climate  A quarter of the products are climate finance. Big team.
+Origin regulator - offer a guarantee that shifts the weight of those reserves to zero. - Best effort to use for SME agenda. 4-5bn GF - 2 climate specialists.
+
+
+## What are those structural shifts needed to mobilize more finance?
+•	Firstly incentives are needed: fossil fuel subsidy reform, carbon pricing, and feebates are required across sectors. Second: the policy conditions for finance flows, including stability and long term policy - a commitment to develop in a low-carbon fashion and the cascading of those commitments down to credible long term policies and contracts in the key sectors involved (transport, power, industry, buildings, agriculture, and land use). Third climate-friendly policies should be mainstreamed in government decision making, for example, in government investment and appraisal, most notably in state-owned enterprises in the power system
+•	The risk-reward balance needs to be more favorable if private sector money flows to EMDEs (it says something about perceptions of higher actual risk / lower real reward if fund managers would instead leave trillions in negative yield government securities than invest in EMDEs).  
+•	In developing countries, especially the poorest countries, much financing needs to be state-backed or supported by MDBs as the private capital markets are sometimes undeveloped. To attract finance means creating policy certainty and credible commitments.  Many low carbon options already include risk mitigation, especially in the power sector: it’s usually possible to strengthen this mitigation through international guarantees or equity risk buffers.
+•	Financial innovation can play a crucial role, for example, the Pay-As-You-Go financing micro-solar systems starting in East Africa. There’s also a need to develop approaches that mobilize domestic savings as well. Mobile payment systems can form the basis of an innovative green financial ecosystem that bypasses sclerotic or underdeveloped capital markets
+•	Green finance includes green banking systems, including the importance of context-suitable macro-prudential regulations to avoid the risks of stranded assets from fossil investment given the rapidly changing economics of renewable alternatives.
+•	The international community, including MDBs, can also play a vital role in incentivizing change. Ambitious policies for rapidly transitioning to a green economy should be rewarded through direct investment and facilitating private investment through derisking approaches.  
+
+
+
+
+## More Initiatives
+
+Sustainable Risk Mitigation Initiatives (SRMI): Attacking all of these 
+Planning building storage.
+Regulation: grid codes. Regulation on land titling.
+Transparent procurement,.
+Sending good signal to private sector.
+PPA respect
+Offtaker risk
+Utility not dealing with the intermittency
+MIGA - real guarantees
+Forex mitigation 
+
+Nadia Talban
+
+SRMI guidelines.
+Bilateral negotiations.
+
+Scaling solar 
+
+Analytics
+- Financial health of its utilities
+- Coal relative price
+-Smooth transition.
+Show the numbers,
+The counterfactual numbers.
+# A public equity fund for tackling climate and giving everyone on Earth a fund (universal basic capital). International coordination of technical plans.
+
+How to Institute a Coordinated Green Stimulus: The Role of International Debt Derisking and a Public Initial Equity Fund in Renewables Scale-up
+
+## Purpose
+Accelerate the transition with profitable blended capital, promote green development and reduce poverty. Incentivize countries to produce practical plans for rapid energy system decarbonization, to adopt carbon pricing and nature protection.
+
+## Crux
+Can derisking reduce interest rates? Yes. Can it reduce then cost-effectively? Certainly. Can it reduce them to developed countries levels? Not easily.
+
+## Elements: 
+- Minimum power price on renewables or a small fee for public infrastructure;
+- Debt Derisking, organized by WB, with WB double indemnified: first by the countries concerned and second by the world bank, indemnified by the fund;
+- Public equity fund for initial financing; equity sold on once a plant is built;
+- Equity funded by small investors and governments;
+- Conditional on:
+ - submission of a plan for accelerated decarbonization (by 2035), which is what will be financed;
+ - politically feasible mitigation incentives (feebates, carbon pricing);
+ - critical biodiversity and global threshold protection.
+
+## What’s needed:
+A financial model of how it could work. Reduction in debt financing costs. Growth in an equity fund.
+
+## Context 
+This talk proposes a new way to do climate finance and a new way to do macroeconomic policy (with an emphasis on green growth). 
+
+The context of this plan is the imminent need to decarbonise rapidly to meet the temperature targets agreed at the Paris conference – to limit warming to 1.5-2C above pre-industrial levels. It should be noted that these targets, whilst challenging, are not themselves ‘safe’ – for example the Greenland ice sheet may not be stable at 2C and perhaps not even 1.5C above pre-industrial temperatures. However, any possibility of a safer climate needs to involve rapid decarbonisation, so we limit ourselves here to achieving this already challenging goal.
+
+In order to meet these targets, given residual emissions from agriculture, the world must reach a net zero energy system extremely rapidly. Energy models agree that this will also involve an electrification of our economy and a switch to renewables power generation, either alone or among other alternatives, with hydrogen derived from electricity also playing a smaller role.
+
+Such a decatbonisation needs a technical plan, comprising necessary public and private investments needed for a non-carbonised energy system, plus phase outs of key fossil technologies such as coal power stations and internal combustion engine automoibiles.  Infrastructure plans would for example specify a requirement for new renewable power generation, grid connections, electric cars and charging stations, electricity storage, green hydrogen production. 
+
+Such a plan needs to be financed. Here we develop a number of related ideas. First, the idea that private investment can be derisked.  This is well understood, but we demonstrate what that means for a specific 
+
+
+
+## Blog
+Wouldn’t it be great if we could accelerate the green transition and create an equity fund for every person on Earth — so everyday people could benefit financially from the switch to a cleaner future?
+
+Now we can. Taking advantage of the low cost of borrowing on government bonds, we show how we can coordinate the green transition with low cost financing supported by the international community. Access to derisked low cost borrowing and, in the future, a fund for each member of a country’s population, would be conditional on:
+1) a technical plan for rapid decarbonisation, which is what would be funded
+2) derisking of renewables and other green public and private infrastructure investments
+3) mitigation incentives such as feebates or carbon tax
+4) protection of natural assets such as biodiversity (eg increasing forest cover, increasing fish stocks)
+
+Under these conditions, low cost borrowing would be enabled plus profit to the fund.
+
+The goal of the equity fund are as follows:
+A) to multiply private risk capital in renewable 
+B) to take some of the profit from de-risking
+C) to provide money for everyday people in developing countries that people could rely on to pay a small dividend every week
+
+##How does the equity fund work? 
+The equity fund would be funded by small investors and, on behalf of poor people in poor countries, by developed country governments. The equity fund is concerned with *initial* shared project financing. After the project is generating revenues consistently, the equity would be sold on at a profit, enabling funds to be reinvested.
+
+##How does the derisking work?
+The government guarantees or puts a floor on the price of power.
+The revenues flow into a special purpose vehicle. 
+The bond holders are paid first.
+The structure is guaranteed by the government and international institutions 
+The bonds are low risk and therefore could, optionally, be bought by central banks
+
+## What else is needed?
+In order to speed the roll-out there would be an international institution which would coordinate what needs to be done.
+
+- Solar-Backed De risking-Blended Capital Fund incl ‘Synthetic AAA bond’ creation
+
+##Main Objectives:
+- Reduce cost of capital on renewables
+- Leverage scarce equity capital
+- Encourage enhanced energy supply (renewables) policy
+- Provide blue chip (AAA) assets to national (and international) funds
+- Induce a low-cost connection between central institutions and global institutions
+
+On the other hand do not use up capital of the central institutions
+- Connect both sides – meaning enhancing the pipeline of new product and increasing the availability of financing.
+- Deal with the risk constraint of institutions such as pension funds and even perhaps central banks
+- Introduce the idea of ‘risk reducing aid’ meaning that it’s better for scarce funds to have an insurance function
+- Introduce public equity fund as the end guarantor, but also allow that fund to benefit from the derisking by (perhaps option based) participation in the initial financing of approved projects
+- Create a well organised set of projects for derisking 
+- Creating ‘sovereign like’ asset classes, can reduce capital flight.
+
+###Methods:
+- Use existing basis of Independent Power Projects with auctioned power purchase agreements
+- Centralise solar PPA contracting in AAA rated entities (as India has done)
+- Countries can ‘self-guarantee’, meaning that a AAA rated guarantor can be indemnified by the country that is guaranteed (reducing costs)
+- Introduce green-bond issuing Special Purpose Vehicles
+
+###Assumptions:
+- Some portion of risk is to do with policy risk not technical. 
+- Derisking reduces the cost of capital. Policy risk derisking provides a possibility for a good win
+- There could be value in combining the best elements of IBRD style derisking (incl sovereign indemnification) and MIGA style.
+- That reduction in cost of capital increases profits in the short term and reduces the contracted cost in the longer term
+- In the short run, provide initial capital through blended equity scheme – that captures the profitability part
+- This can also provide the ‘glue’ for international agreements.
+
+## Theories of Change:
+- Imprimatur of global institutions can act as a ‘green light’ for local and international investors
+- ssume that a new and unknown idea will sometimes still have high profits – meaning that the effect will not be fully passed on, but rather lead to higher equity holder profits. Share in those profits.
+
+## Fairness 
+We are allowing low-income countries to invest in a way that is financially and socially sustainable. We need to combine the equitable approach AND the financial approach. PPPs were a failure for governments and the population. Could we think of a fair derisking partnership that the government AND the people win? To avoid corruption and make the project happen?
+
+## Rationale
+
+Introduction (Need for capital, renewable important, core role of finance) (Lit)
+Further Contextual Rationale including market failures (Lit) (Need for blue chip AAA  investments as pension fund constrained) - governmental failure in the financial 
+Away from the market failure - market shaping perspective.
+[[Theory of Change / Frameworks for thinking (very brief)]]
+Derisking: what it is' Existing proposals and practices for bringing work together; lessons learned and missing parts (Lit)
+
+## Next Steps
+IBRD Guarantees; MIGA guarantees. PPA guarantees
+Is the existing one good enough?
+What is needed extra?
+What are the forms of guarantee and what are their quantiaitve strengths and weaknesses?
+One Page, with 4 structures outlined?
+Look into guarantee structures.
+
+
+#Carbon Markets
+## Stephane Idea: Make Carbon Market Expensive as Possible
+  -	Not looking for cheap emissions
+-	Looking for expensive emissions reductions.
+- Carbon Market as expensive as possible.
+-	Net zero paths in all countries, what all countries that are expensive and what are cheap?
+Macrofinance
+Build up Assets
+
+Forced Saving
+Forced Investment
+Under Financial Conditions
+
+##Fundamentals of Risk
+1.	Risk is to do with matching cashflows: does the cashflow of the revenue source match the profile of the funding source? For example, if a bond is funding, the revenues should be stable
+2.	There are different types of risk
+
+##COP-26 Derisking
+A Role for the World Bank
+What should the role of the world bank be in climate? One possible option would be as a risk intermediary
+
+##Technical Plan Derisking Synergies
+Two applications of de-risking 
+
+-  cop 26 context: each country would have a ‘plan’ and WB would de-risk 
+-  WB context: implementing CC action plan
+-  National macroeconomic context: green growth!!
+-  International reserve currency context: 
+Where does the risk go? Is there gold dust? Where?
+
+Gold dust -
+- locking in PPA leads to beneficial risk matching 
+- Credit is a function of long term relationships 
+- Relational reductions in risk of default )”(eg WB relationships)
+- Pre-securitisation prioritisation and reduction in risk of default 
+- More appropriate cash-flow matching 
+- Financial structuring to maximise relevance to pension funds
+
+- small increase in renewable risks; big decrease in other risks (transition risks)
+- legal risks
+- Project construction risks - not covered
+-
+Cop - plans for financing 
+
+Since the default risk of a loan depends on financial structure (not just the underlying economic drivers) the risk of these financial structures can sometimes be reduced, for example with securitization structures.  
+This involves risks at present, that may be growing, the stock of forward-looking risks created and reduced by the intervention, and the crystallization of existing risks. ‘Business as usual’ entails large risks both to the climate and in terms of the risk of stranded assets. Some of those forward looking risks could be reduced by green interventions. Existing risks could also be crystalized – financial sector interventions could drive entire sectors out of business, as they become less competitive compared to the low-carbon alternatives. In turn, financial assets could abruptly gain or lose value and stranded high-carbon assets could emerge with negative implications for the real economy and government budgets.
+
+
+
+# Ideas for Tools- Shareable CPAT
+- Opportunities analysis sub tool
+- First step: We should calculate Energy System cost.
+-	Second step: derisking reduce costs of capital
+  -	NPV depends on the cost of capital
+  -	Electricity Price
+-	PMI: Carbon market people.-	LUT in the spirit of opportunities and costs.
+
+# Priorities of GP
+
+- Policy Guidelines: How do they address the CCDR
+- Sustainable Growth model: GRID - high level for whole bank
+- Starting in agenda. VP has different environment. (Growth at all costs)
+- Bring an approach to convinces him. Bringing a growth path, from a macro perspective. Looking at EFI. FIscal Policy and Sustainable Growth.
+- What is the plan to do work on this area.
+- Sources of funding
+- Growth, Inclusiveness, Climate Change, Debt
+
+
+# T2B
+WB priorities and EFI. Changing the narrative on climate and development. 
+WB wide position paper on Carbon pricing (our team)
+For the spring meetings. WB position of Carbon Pricing.
+Second big priority: trillions to billions.
+Big moves in climate action: deal with in the next political cycle.
+Third priority: COP: Application of CPAT. How can they act in their self interst. Excess mortality and morbidity.
+
+Prioritisation Up Front
+	- Key sectors (see CPAT)
+	- Economics of Key Sectors (eg opportunity to 
+	- Relevant Industries
+	- Strategic country-specific objectives
+
+Policy Gap analysis
+
+	- Financial
+	- Carbon Pricing
+	- Planning
+	- Forward looking regulation
+
+Opportunity Analysis
+	- Key technologies?
+
+## What could be turned into a tool?
+  - Investment needs and gap analysis - is there a good IEA dataset?List of people to reach out on derisking
+  - Cost of capital information
+  - Development level indicators
+  - Risk of investing
+  - Reach out to IEA
+  - Initial results from Julie Rosenberg paper
+
+
+##Key Resources:
+- IEA studies and people
+- Investment on Climate Models
+- CPAT
+
+## Sequencing for T2B
+1) Identify any literature on what investment is needed with and without policy
+- Eg the IEA study
+- Eg the Pathways 2050 report
+
+2) Detailed modelling (e.g. in CPAT).
+- Challenge: the modelling is only there for 
+
+3) Investment requirements tool.
+We already have the 
+the Pathways 2050 report: https://openknowledge.worldbank.org/bitstream/handle/10986/33958/149871.pdf?sequence=3&isAllowed=y
+
+4) Clarification email to Dirk: deliverable, timescales (maybe)
+- Is this the pathways report that he means?
+
+5) Deep dive on Energy Models
+- How do the IEA derive their numbers for the required investment?
+Can we contact them?
+
+6) Policy matrix.
+- Pricing
+- Forward looking regulation
+- Financial tools
+
+
+# Key Resources:
+- IEA studies and people
+- Investment on Climate Models
+- CPAT
+
+
+
+
+# Two Advanced Forms of Credit Guarantee
+1 Cover-and-recover with Equity loss fund as long-term backup
+2 Securitisation of guaranteed revenues to create derisked green bonds
+My take on this is roughly to emphasize the very high importance of this topic.
+
+
+## Modelling for T2B
+1.	Brief Distance to the Frontier Technology Analysis – search online for available tools and analysis (3 hrs)
+2.	Scoping of “Financing the low-carbon transition” project in a bit more detail (3 hrs) (* Kick off this week but mostly beginning of next)
+3.	Summary Literature Review of Derisking to expand one pager into two (3 hrs) (* Kick off this week but mostly beginning of next)
+
+- Credit Guarantees versus cover-and-recover: reduction of 3/4 in risk?
+- Securitisation: Down to AAA? Developed country rates.
+- Equity fund: 1/4 of profits from derisking.
+- Premium Window. Less your pay, the more your premium.
+
+1kW per person. 5kW peak. 10 billion people. 50 trillion USD.
+World GDP of 93trillon.
+
+
+# Organise and prioritise and focus on key capabilities
+- The world bank's advice on this topic will drive whether we meet 2C or not.
+MDBs cannot do everything. They have key capabilities. Leverage those capabilities further.
+Sort out risk: create financial investments that suit the needs of risk averse financial institutions
+How public finance can be more transformational
+
+The transition map: the first step understanding pathways. Assuming ther CCDRs and Energy Pathways. People are already looking at this. Take this trhough to the part of mobilising private finance. Mapping out core issue:
+Distribution, Jobs in coal in a classic WBG sense. 
+
+#
+
+And then our mission is to bring these options as 'systemic-investment' options to policy makers and WB people
+
+
+ the first step is a deeper process of engagement with existing initiatives
+
+
+    To understand their ability to scale 
+    or the hirdles to achieveing the scale. 
+    And to work out how they can work togetheror the hirdles to achieveing the scale
+    I think the derisking SPV structure probably exists in the green bonds ecosystem but maybe needs bringing out more
+    Ie something similar already exists
+    So it's somehow to use the Victor/Geels terminology 'coordinated diffusion' that's needed -- of financial structures,    Plus some 'experimentalist learning' with the blended capital - derisking hybrid
+
+Oliver Maroul.
+Rachel Chi Kiu Mok
+
+FInance Ministers understand Finance - this is the link.
+
+B. Big fund idea. 
+Developed country give you
+- Get climate outcomes - and get your money 
+
+
+How much of a plan do you need? 
+
+
+Use money to get a higher return. *How can we use funds in a clever way.*
+
+Linking the level to the policy area.
+
+Greening monetary policy and operation. Unexplored area.
+
+Super interesting to the IMF of the world.
+
+Role of the national development banks. Pushing forward the policies. 
+
+Central banks could stay neutral. 
+
+Pitch - making it interesting for the proposal people.
+
+Who are the investors?
+- WB/CB deriskers
+
+Normal man or woman, could invest in this without worrying. Millenials play a role to the normal person who doesn't have huge funds.
+
+SMEs - financial inclusion,
+-----------
+
+A Mechicanism for Rapid Solar Scale Up in Developing Countries
+Financial Inclusion: how can the everyday person invest more! :)
+How this fits this with how the financial works.
+
+
+## Politics
+Funding is not our problem. Other funding available. 
+Not much gained 
+Institutions buy-in. 
+Need review. Review needs to be from the long-term finance. Fiona Stewart needs to make the case for the idea. Fiona Stewart would need to be 
+Initiative, which is ongoing, which EFI is trying to stop. 
+Do a project. Under this.
+Debt Unit.
+Changes in debt sustainability
+Review – can this facility house this 
+Hocus Pocus. Negotiating.
+MTI – co-owns the facility.
+Celine, FCI Long term finance Debt Unit
+
+# Goals 
+## Long Term Goals
+PhD Proposal (long term)
+T2B:
+	Guarantees: briefing paper
+	Feebates breifing paper
+CPAT:
+	Global-national approach inlcuding risk model
+	R based coded CPAT
+
+## What? Apply for a PhD (part time).
+
+How? Plan for PhD: 
+- Spec out the places: DC, Cambridge, Oxford, Glasgow. 
+- Decide on a topic. Politically optimal climate policy  under pessimistic assumptions.
+- Find a supervisor.
+- Publish papers on feebates, derisking, macropolicy, and tech development.
+
+
+## Detail
+
+1) Apply for a PhD (part time).
+- Spec out the places: DC, Cambridge, Oxford, Glasgow.
+- Decide on a topic. Politically optimal climate policy  under pessimistic assumptions.
+- Find a supervisor.
+- Publish papers on feebates, derisking, macropolicy, and tech development.
+Measurable success metric: Number of applications set in
+Acceptance criteria: One or two applications sent in.
+
+2) Paper pipeline (see other projects)
+Get experienced assistance and cowriters
+Recruit assistant (could be Faustyna)
+Don't let the perfect be the enemy of the good
+Measurable success metric: 
+Acceptance criteria: 
+
+3) Trillions to Billions Project
+- Policy level: create one page brief about policy paper.
+- Develop consistent link between the policy level and financing level
+- Policy assessment per country.
+- Key macrofinancial assessment.
+- Link it to the plan for CPAT macrofinancial model.
+Measurable success metric: 
+Acceptance criteria: 
+
+4) CPAT
+- Testing and Documentation
+	- Check all points from 1.0 review
+	- Gap analysis on documation
+	- Regression (Paulo)
+	- Test against overall sensitivity (papers)
+	- Test against baselines
+	- Test against examples of C-pricing
+- CPAT 2.0: 
+	- R based global fund modelling approach
+	- Techno-financial model
+Measurable success metric: 
+Acceptance criteria: 
+
+
+5) Relaxation plan
+- Book list of 'go to places' - nearby places in DC and elsewhere to get a change of scene.
+- Long list of fun activities
+- Have a day 'off laptop' 'off coffee' per weekend.
+- Buy table tennis set to fit in my house.
+- Nature time!
+Measurable success metric: 
+Acceptance criteria: 
+
+
+## Success Spirals
+- Academic/writing success spiral
+
+## Simplify
+- Stuff:
+- People: 
+
+## Sayings
+Write it 50 times.
+Telling yourself something - 10 min self confidence.
+Writing create feeling
+Feeling create actions
+Actions create results.
+
+I am a PhD student
+I am publishing things
+I have lovely relationships and respectful with people about my ideas
+I am happy healthy and wealthy and it is done by 30th September.
+I am grateful for having great friends and family. I am grateful for having a great boss. I am grateful for being in generally good health.
+We are so pleased to accept you into our PhD programme for the year. It was a pleasure to meet you and take this forward.
+
+
+## Dirk Rant
+APPLYING FOR JOBS
+
+
+
+Hi Dirk, Just to explain why I am not really interested in applying for jobs. My life has been out of balance for the last few years - normally I'd expect to be doing something like 50% of work that would push forward my research interests and 50% arbtrary stuff that was contrary to them - that's just normal. But recently, whilst I adore the topic and the workplace - it's my dream, there's just not that much overlap between the time I spend and my research topics and that means that my opinions are not being supported by hours and hours of writing. That just means I've got out of balance, and I need to make sure that my next role is not only research but not operations, but i can define the agenda. I've just been way out of balance - and I need an average of at least 50% overlap every 5 years. If I've been spending time more at 5 or 10% overlap, then I need a few years at 80 or 90% (or at least where I can guarantee over 50%). That's just not very likely. Also, I have a whole load of research interests in macro and financial, and really don't want to switch to some stuff about guarantees (my interest is in how guarantees aid the macro picture). So if I am uniniterested in getting a job, it's just the necessity of returning to balance. I have a detailed cutting edge research agenda to fulfull, and I am just not that interested in most roles, because I've spent so little time on it recently, and that's the end to which my life is subordinated. To be feceatious, my 40s or early 50s are the time I need to do the work to get my nobel prize!
+If I could guarantee that I could push forward a research role, that would be fine. I do not rule out applying for a job, it's just my time is extremely scarce and it's not a very high priority for me.
+
+Perhaps most roles would be a lot better th... by Stephen John Stretton
+Stephen John Stretton7:20 PM
+Perhaps most roles would be a lot better than the CPAT excel however, that's certainly possible. I am pretty jaded just at sheer number of pointless hours given the incredibly inefficient modelling environment (and because I am not really in favour of modelling - I only ever did it for the money)
+
+On the other hand, everything else about wo... by Stephen John Stretton
+Stephen John Stretton7:21 PM
+On the other hand, everything else about working at the WB in our team is amazing. So that all counts for a lot. It's just my primary objective is to make sure that I actually start doing some proper research, that's oriented correctly not askew
+
+The next stage of CPAT is alrwady looking b... by Stephen John Stretton
+Stephen John Stretton7:23 PM
+The next stage of CPAT is alrwady looking better than before, but it will be easy to get bogged down again in basically doing damn energy modelling again, which will certainly be better than CPAT but nothing to do with the various intellectual innovations I am constrantly making and which need writing down.
+
+As an innovator, I need to be constantly wr... by Stephen John Stretton
+Stephen John Stretton7:24 PM
+Edited
+As an innovator, I need to be constantly writing papers about these innovations and solutions to problems. I feel trapped inside predefined solultions which leads no room for the fact that we need innovations to solve long running problems (or else they wouldn't be long running problems)
+
+That's not that I am unhappy, I am completely happy. It's just I have strong preferences that come first.
+
+What I'd like to improve is an atmosphere of intellectual debate. I don't feel we have that. We really need this. I have no need to impose my will on anyone. I just want to be able to debate and I don't feel like we have that at the moment, because we are all busy. That's really the only thing badly wrong. Otherwise team dynamics, leadership, people, work environment etc are perfect.
+
+Back to CPAT. Overall I am not whinging, just explaining. We are already in the very good category as teams go, and that's another reason I don't want to leave!!
+
+But maybe we could debate more over beers ourselves as well as have more debate time in the team. I think the problem for me is the lack of argument, rather than the fact that I can't have my way. It's the lack of open debate and lack of scholastic attitude which upsets me. As soon as we say that we don't like X because of their views are different from ours it causes 'secondary poisoning' of the team debate-atmosphere in my view - even if you and I largely agree on which opinions we like and don't like.
+
+Undoubtedly getting one's way in business or political parties requires more totalitarianism and ruthlessness that one tolerates in a political system as a whole. But it's still better to promote open debate and open debate fora I think, both for team happiness, and for diverse views to feed up to the leaders including you
+
+The formal level is very good. We need more informal debate.
+(team decision making is very good leadership)
+In particular I want to debate with you my energy-supply-oriented approach. I think I can persuade you!
+
+We share intellectual framework, it's just a matter of the numbers and that takes more time to communicate and debate. Perhaps worth doing research rather than having opinions, which brings me back to my own direction setting which is where I began.
+
+I love your institutional perspective on things. It's so interesting. I am now doing the trainign of our team properly, starting with the core things they need to learn, including Grubb framework, and then your books among others
+
+Having said all that, I get that it's stressful to work with friends. It's nicer once the friends are in a separate group.
+

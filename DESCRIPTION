@@ -1,0 +1,24 @@
+Package: cpatr
+Title: Demo version of CPAT-R
+Version: 0.0.1.9000
+Authors@R: c(
+    person("Daniel", "Bastidas", email = "dbastidascordova@worldbank.org", role = c("ctb")),
+    person("Stephen", "Stretton", email = "sstretton@worldbank.org", role = c("aut", "cre")))
+Description: CPAT-R development with the objective to open up CPAT to the general academic and policy design community.
+License: `use_mit_license()`, `use_gpl3_license()`
+Encoding: UTF-8
+URL: https://github.com/, https://github.com/wb-mrio/cpat_r_test
+BugReports: https://github.com/wb-mrio/cpat_r_test/issues
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
+Imports: dplyr, tidyr, purrr, stringr
+Suggests: rmarkdown, knitr
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2022-09-14 14:53:00 UTC; dbc
+Author: Daniel Bastidas [aut, cre],
+  Daniel Bastidas [aut, cre]
+Maintainer: Daniel Bastidas <dbastidascordova@worldbank.org>
+LazyData: true
+Depends: 
+    R (>= 2.10)

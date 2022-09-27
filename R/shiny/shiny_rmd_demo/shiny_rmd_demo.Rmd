@@ -1,0 +1,45 @@
+---
+title: "Demo"
+author: "Arkadi A."
+date: "March 15 2022"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This R Markdown document is made interactive using Shiny. Unlike the more traditional workflow of creating static reports, you can now create documents that allow your readers to change the assumptions underlying your analysis and see the results immediately. 
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+
+```{r}
+#Sample data
+df = mtcars %>% 
+  mutate(CarName = rownames(.)) %>% 
+  relocate(CarName, .before = 1) %>% 
+  as_tibble() %>% 
+  slice_head(n = 10) #smaller simple
+```
+
+
+```{r eruptions}
+inputPanel(
+  selectInput("var", label = "Select variable",
+              choices = names(df)[-1], multiple = T)
+)
+
+shiny::renderTable({
+  sel_cols <- c('CarName', input$var)
+  df %>% 
+    select(all_of(sel_cols))
+})
+```
+
+
+
+

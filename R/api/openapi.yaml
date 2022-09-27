@@ -1,0 +1,57 @@
+openapi: 3.0.1
+info:
+  title: CustomApi
+  version: '1.0'
+servers:
+  - url: /
+paths:
+
+  /growth:
+    post:
+      summary: Sample Calculation Function
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              required:
+              - value
+              - factor
+
+              properties:
+                value:
+                  type: string
+                factor:
+                  type: string
+              example:   # Sample Calculation
+                value: 45
+                factor: 1.05
+      responses:
+        200:
+          description: OK
+
+  /mitigation:
+    post:
+      summary: Mitigation
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              required:
+              - params
+              - init_data
+
+              properties:
+                params:
+                  type: string
+                init_data:
+                  type: string
+              example:   # Sample Calculation
+                params: ''
+                init_data: ''
+      responses:
+        200:
+          description: 
+          
+          

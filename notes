@@ -1,0 +1,29 @@
+rstudio
+i-09f2ae58067de2d8a
+
+
+ sudo docker build -f ./apps/shiny/Dockerfile .
+ docker tag 3d6 simage
+
+sudo docker run -d --restart on-failure -p 3838:3838 simage
+
+
+ sudo docker build -f ./apps/shiny2/Dockerfile .
+
+ docker tag 008 simage
+
+sudo docker run -d --restart on-failure -p 3838:3838 simage
+
+sudo docker run --rm -p 3838:3838 docker1
+sudo docker run -d --restart on-failure -p 3838:3838 docker1
+
+sudo docker build -t docker1 .
+sudo docker run -d -p 3838:3838 docker1
+
+ sudo docker build -f ./apps/api/Dockerfile .
+ docker tag 46e rimage
+
+
+sudo docker run -d --restart on-failure -p 8080:8080 rimage
+
+sudo apt-get install -y libjs-mathjax

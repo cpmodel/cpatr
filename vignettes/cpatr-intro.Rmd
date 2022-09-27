@@ -1,0 +1,189 @@
+---
+title: "cpatr-intro"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{cpatr-intro}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(dplyr)
+```
+
+## Setting up
+
+Before installing *cpatr*, any existing version of this package should be uninstalled:
+
+```{r eval=FALSE,include=TRUE}
+remove.packages("cpatr")
+```
+
+The *cpatr* package can then be installed either from Github, or locally --after having pulled the *cpatr* repo into the user's computer. Both alternatives require the *devtools* package to be installed:
+
+```{r eval=FALSE,include=TRUE}
+install.packages('devtools')
+```
+
+
+## Installing the *cpatr* package from Github
+
+Using *devtools*, we can now install *cpatr* from its Github repository.
+
+The *cpatr* package relies on pre-processed datasets covering both historical information, as well as the projection of some key variables. The data is included in the package. This can slow down the installation, taking more than the default time R expects it to take, and resulting into it providing 'timeout' errors. To avoid this, we increase the timeout threshold before running the installation commands:
+
+
+```{r eval=FALSE, include=TRUE}
+# Increasing the timeout:
+options(timeout=9999999)
+
+# Installing from github once the repo has been as "public" (no token required here)
+devtools::install_github('wb-mrio/cpatr',
+                         upgrade = 'never',
+                         dependencies = T)
+```
+
+
+## Install locally in **RStudio console** 
+
+
+Alternatively, the package can be built from RStudio. Again, the *devtools* package is required for this. To do so, open the cpatr project in RStudio, and run the following two lines of code in the Console:  
+
+```{r eval=FALSE, include=TRUE}
+devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))
+
+devtools::install(build_vignettes = TRUE, upgrade = 'never')
+```
+
+**As result**  
+
+  *√  checking for file 'C:\Projects\CPAT\cpatr/DESCRIPTION' ...   
+  -  preparing 'cpatr': (1m 13.6s)  
+  √  checking DESCRIPTION meta-information ...  
+  -  installing the package to build vignettes  
+  √  creating vignettes (9.2s)  
+  -  checking for LF line-endings in source and make files and shell scripts (2.7s)  
+  -  checking for empty or unneeded directories  
+     Omitted 'LazyData' from DESCRIPTION  
+  -  building 'cpatr_0.0.0.9000.tar.gz'  *
+
+  &nbsp;
+    
+
+## Using the *cpatr* package
+
+After installing, it the package can be loaded into the system to be used:
+
+```{r eval=FALSE, include=TRUE}
+library(cpatr)
+```
+
+Information on package
+
+```{r eval=FALSE, include=TRUE}
+library(help = cpatr)
+```
+
+```{r eval=FALSE, include=TRUE}
+
+		Information on package ‘cpatr’
+
+Description:
+
+Package:            cpatr
+Title:              Fully Functional R-based twin of CPAT-Excel
+Version:            0.0.0.9000
+Authors@R:          c( CPAT team )
+Description:        cpatr development with the objective to open up CPAT to the general academic and policy design
+                    community
+License:            `use_mit_license()`, `use_gpl3_license()`
+Encoding:           UTF-8
+Roxygen:            list(markdown = TRUE)
+RoxygenNote:        7.2.1
+Imports:            dplyr, tidyr, purrr, DBI, RPostgres, stringr
+Suggests:           rmarkdown, knitr
+VignetteBuilder:    knitr
+NeedsCompilation:   no
+Packaged:           2022-09-14 21h10; db
+Author:             CPAT team 
+Built:              R 4.2.1; 
+
+# Index:
+# 
+# convert_tibble_matrix_to_tibble
+#                         Title
+# is.tibble.matrix        Title
+# mitigation_function     Title
+# tibble_to_tibble_matrix
+#                         Title
+# 
+# Further information is available in the following vignettes in directory
+# ‘C:/Users/aavan/Documents/R/win-library/4.1/cpatr/doc’:
+# 
+# cpatr-intro: cpatr-intro (source, pdf)
+```
+
+
+**Access the vignette**
+
+```{r eval=FALSE, include=TRUE}
+vignette('cpatr-intro')
+```
+
+
+**Access Data**
+
+```{r eval=FALSE, include=TRUE}
+data("DB")
+```
+
+
+### Testing CPAT's functionalities
+
+At this stage, the package comes with pre-loaded scenarios for testing purposes. These will be modifiable through an interface. We can check the effect of both scenarios, by running the following test:
+
+**NOTE**: cpatr still relies on dummy data or incomplete datasets. The need to fill in the blanks will create a warning message for the user. At this stage this is expected, and the warnings have not been muted to be able to track the impact of the next steps in the package's performance.
+
+```{r eval=FALSE, include=TRUE}
+
+# Loading other required packages:
+library(tidyverse)
+library(dplyr)
+
+# Running CPAT for all countries, for two scenarios:
+Tests   <- cpatr::SimpleCPAT(DB,
+                             BaseList)
+
+# Retrieving the information for any given scenario
+# We can observe the evolution of the baseline for the variables currently considered in cpatr, by selecting this scenario from the object created above:
+head(Tests$Scenario1)
+
+# To retrieve a particular variable, for instance, the forecast of diesel consumed by the food industry in the US and UK, or its retail price, we can first filter the data as follows. Note that this uses the pipe operator '%>%' from the dplyr and tidyverse packages.
+ExampleExtraction     <- Tests$Scenario1 %>%
+                          filter(CountryCode %in% c('USA', 'GBR'),
+                                 SectorCode  == 'foo',
+                                 FuelCode    == 'die')
+
+# Once filtered, we can select the variables of interest:
+ExampleEnergyCons     <- ExampleExtraction %>%
+                          select(CountryCode, SectorCode, FuelCode, ec)
+
+ExampleRetailPrice    <- ExampleExtraction %>%
+                          select(CountryCode, SectorCode, FuelCode, p)
+
+```
+
+To run any additional operations with these data, it is much more convenient to extract only the data matrix, provided we know what is giving the order of the rows (in this case, the countries: USA and GBR):
+
+```{r eval=FALSE, include=TRUE}
+# For this two countries, the data can be obtained by simply calling the variable as a column. In this case, the column will be on itself a matrix, where the rows will represent the selected countries, sectors and fuels, and the columns the years.
+ExampleEnergyCons$ec
+
+# Note that this can also be done with the initial set of data prior to the filtering (the rows will be the same as those in Tests$Scenario1)
+Tests$Scenario1$ec
+
+```

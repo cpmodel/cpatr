@@ -1,0 +1,41 @@
+---
+title: "README"
+author: "Arkadi Avanesyan"
+date: "`r Sys.Date()`"
+output:
+  md_document:
+    variant: markdown_github
+---
+
+_Logo placeholder?_
+
+This [R](https://www.R-project.org/) package ...  
+
+## Installation
+
+### Stable version
+
+Current stable version is available on [CRAN](https://CRAN.R-project.org/) via
+
+```R
+```
+
+### Development version
+```R
+```
+
+### Local version
+
+```{r eval=FALSE, include=TRUE}
+devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))
+
+devtools::install(build_vignettes = TRUE, upgrade = 'never')
+```
+
+
+## Bug/feature request
+...
+
+
+## News
+[Here](...). 
