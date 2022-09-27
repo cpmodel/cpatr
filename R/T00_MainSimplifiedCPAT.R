@@ -39,11 +39,8 @@ SimpleCPAT        <- function(HistoricDataset,
                               BaseList,
                               UserScen){
 
-    #load('data/DB.rda')
-    #load('data/BaseList.rda')
-
-
     # Initializing the Scenarios:
+    MTI               <- list()
     MTI$Scenario1     = ReadInputs(BaseList)[[1]]
     MTI$Scenario2     = UserScen
 
