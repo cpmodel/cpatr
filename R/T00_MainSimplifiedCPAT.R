@@ -41,9 +41,11 @@ SimpleCPAT        <- function(HistoricDataset,
     #load('data/DB.rda')
     #load('data/BaseList.rda')
 
-    # When packaging, the RDS format won't be supported
-    # DB         = read_rds('data/DforIntegration.RData')    # Historical database
-    # BaseList   = read_rds('data/BaseList.RData')
+
+    ########################################################
+    ## NOTE: REPLACE THIS WITH INPUTS READ FROM THE SHINY ##
+    ########################################################
+
     MTI        = ReadInputs(BaseL = BaseList)
 
     #------------------------------------------------------------------------------------------------------------#

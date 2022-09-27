@@ -9,7 +9,7 @@
 #source('R/T04_DataInclExogProj.R')
 
 # In absence of user's inputs, I need a matrix of 0 with the proper dimensions. This is already included in BaseList
-# BaseList   = read_rds('data/BaseList.RDS')
+# load('data/BaseList.rda')
 
 #-----------------------------------------------------------------------#
 #- Temporarily introducing here some dummy replacement for user inputs -#
@@ -24,6 +24,11 @@
 # ----------------------------- #
 # Dummy inputs for the baseline #
 # ----------------------------- #
+
+
+## ********************************************** ##
+## REPLACE THIS WITH INPUTS READ FROM THE SHINY ! ##
+## ********************************************** ##
 
 ReadInputs              <- function(BaseL){
 
