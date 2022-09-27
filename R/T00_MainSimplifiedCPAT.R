@@ -46,7 +46,6 @@ SimpleCPAT        <- function(HistoricDataset,
     ## NOTE: REPLACE THIS WITH INPUTS READ FROM THE SHINY ##
     ########################################################
 
-    MTI        = ReadInputs(BaseL = BaseList)
 
     #------------------------------------------------------------------------------------------------------------#
     # Including data that has both historical information and projections, but does not depend on user's choices #
@@ -54,7 +53,8 @@ SimpleCPAT        <- function(HistoricDataset,
 
     # GDR relative to base (equal for all scenarios)
     DB            <- PrepareGDPRelativeToBase(DD = HistoricDataset,
-                                              BaseL = BaseList)
+                                              BaseL = BaseList,
+                                              MTI)
 
 
 
