@@ -36,15 +36,16 @@
 #' @examples
 
 SimpleCPAT        <- function(HistoricDataset,
-                              BaseList){
+                              BaseList,
+                              UserScen){
 
     #load('data/DB.rda')
     #load('data/BaseList.rda')
 
 
-    ########################################################
-    ## NOTE: REPLACE THIS WITH INPUTS READ FROM THE SHINY ##
-    ########################################################
+    # Initializing the Scenarios:
+    MTI$Scenario1     = ReadInputs(BaseList)[[1]]
+    MTI$Scenario2     = UserScen
 
 
     #------------------------------------------------------------------------------------------------------------#
@@ -53,8 +54,7 @@ SimpleCPAT        <- function(HistoricDataset,
 
     # GDR relative to base (equal for all scenarios)
     DB            <- PrepareGDPRelativeToBase(DD = HistoricDataset,
-                                              BaseL = BaseList,
-                                              MTI)
+                                              BaseL = BaseList)
 
 
 
