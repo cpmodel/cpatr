@@ -1,13 +1,9 @@
 ^cpatr\.Rproj$
 ^\.Rproj\.user$
 air_pollution
-apps
+Archive
 build
-database
-documentation
-examplesandpython
 init.sh
-Python
 README_files
 scripts
 shiny-server.conf
