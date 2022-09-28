@@ -30,7 +30,15 @@
 ## REPLACE THIS WITH INPUTS READ FROM THE SHINY ! ##
 ## ********************************************** ##
 
-ReadInputs              <- function(BaseL){
+#' Baseline Inputs:
+#' This function reads some pre-loaded scenarios to test CPAT
+#'
+#' @return
+#' @export
+#' @import tidyr dplyr purrr tidyverse readxl readr stringr
+#' @param BaseL BaseList included in cpatr with templates
+
+BaselineInputs              <- function(BaseL){
 
 
     MTinputsDummy               <- list()
