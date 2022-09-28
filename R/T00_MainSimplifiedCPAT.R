@@ -51,7 +51,8 @@ SimpleCPAT        <- function(HistoricDataset,
 
     # GDR relative to base (equal for all scenarios)
     DB            <- PrepareGDPRelativeToBase(DD = HistoricDataset,
-                                              BaseL = BaseList)
+                                              BaseL = BaseList,
+                                              RInputs_RawGDPRelativeToBase)
 
 
 

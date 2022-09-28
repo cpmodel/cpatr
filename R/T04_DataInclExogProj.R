@@ -25,7 +25,8 @@
 #' @examples
 
 PrepareGDPRelativeToBase <- function(DD,
-                                     BaseL = BaseList){
+                                     BaseL = BaseList,
+                                     RawGDPRelativeToBase){
 
     # Base year for monetary values: To be read as a user-defined parameter
     # Projections of GDP growth can be recomputed based on this
@@ -38,7 +39,6 @@ PrepareGDPRelativeToBase <- function(DD,
     #   filter(Year %in% all_of(BaseL$AllYears))
 
     # NOTE: Dropping the dependency on Excel files
-    # load('data/RawGDPRelativeToBase')
     RawGDPRelToBase     <- RawGDPRelativeToBase %>%
                             filter(Year %in% all_of(BaseL$AllYears))
 
