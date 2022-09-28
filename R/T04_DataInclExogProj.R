@@ -17,6 +17,7 @@
 #'
 #' @param DD Tibble with variables in matrix column format (D matrix)
 #' @param BaseL List with global parameters and templates to reconstruct matrices consistent with DD
+#' @param RawGDPRelativeToBase
 #'
 #' @return
 #' @export
