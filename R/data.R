@@ -13,10 +13,10 @@
 #'  @format Tibble, array. It includes single columns to be read as column vectors, and also others as matrix columns.
 'DB'
 
-#' RawGDPRelativeToBase
+#' RInputs_RawGDPRelativeToBase
 #' Dataset with information on the real GDP in each year over that of the base year. Used to compute Energy Consumption
 #' @format tibble
-'RawGDPRelativeToBase'
+'RInputs_RawGDPRelativeToBase'
 
 #' RInputs_InternationalPrices_IntPrices
 #' @format tibble
