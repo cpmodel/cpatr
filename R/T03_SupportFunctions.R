@@ -25,7 +25,7 @@ CreateCP      <- function(StartCPYear  = 2023,
                           TargetCPYear = 2030,
                           StartCP      = 60,
                           TargetCP     = 100,
-                          TemplMat     = BaseList$TemplMat){
+                          TemplMat){
 
       CP              <- TemplMat
       YearVector      <- colnames(TemplMat)

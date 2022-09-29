@@ -26,7 +26,7 @@
 
 
 PrepareGDPRelativeToBase <- function(DD,
-                                     BaseL = BaseList,
+                                     BaseL,
                                      RawGDPRelativeToBase){
 
     # Base year for monetary values: To be read as a user-defined parameter
@@ -124,7 +124,7 @@ PrepareGDPRelativeToBase <- function(DD,
 
 
 CompleteYears           <- function(TheDF,                     # The data frame in which we will add the missing years
-                                    BaseL = BaseList,          # List including relevant information about years chosen
+                                    LocalBaseL,
                                     HistY = 'with_NA',         # Rule used to complete the data regarding historical years
                                     ProjY = 'ConstantGrowth'){ # Rule used to complete the data for projected years
 
@@ -138,12 +138,12 @@ CompleteYears           <- function(TheDF,                     # The data frame 
     # Finding the years covered and the ones we will need to include
 
     # Years covered will be helpful when sorting back the columns of the table, while respecting the old order of some cols
-    ExistingYears   <- colnames(BaseL$TemplMat)[(colnames(BaseL$TemplMat) %in% colnames(TheDF))]
-    ColsToInclude   <- colnames(BaseL$TemplMat)[!(colnames(BaseL$TemplMat) %in% colnames(TheDF))]
+    ExistingYears   <- colnames(LocalBaseL$TemplMat)[(colnames(LocalBaseL$TemplMat) %in% colnames(TheDF))]
+    ColsToInclude   <- colnames(LocalBaseL$TemplMat)[!(colnames(LocalBaseL$TemplMat) %in% colnames(TheDF))]
 
     # The process is different for historical and projected years.
     # Historical years missing
-    YBefore         <- ColsToInclude[ColsToInclude < BaseL$FirstModYear]
+    YBefore         <- ColsToInclude[ColsToInclude < LocalBaseL$FirstModYear]
 
 
     #------------#
@@ -163,7 +163,7 @@ CompleteYears           <- function(TheDF,                     # The data frame 
     # The result from this process will add historic years after the projected ones. This has to be sorted out.
     # This vector checks the years available to order AFTER historical years have been added
     # We only consider the available years included in the set of years of interest
-    AvailableYears      <- colnames(BaseL$TemplMat)[(colnames(BaseL$TemplMat) %in% colnames(tempDF))]
+    AvailableYears      <- colnames(LocalBaseL$TemplMat)[(colnames(LocalBaseL$TemplMat) %in% colnames(tempDF))]
 
 
     # Non-numerical columns in the ORIGINAL matrix (To keep the same order in the new one)
@@ -276,7 +276,8 @@ PrepocessIntPricesList      <- function(BaseL,
                         select(-Region)
 
     # Completing the dataframe time coverage:
-    Step1           <- CompleteYears(TheDF = TempStep1)
+    Step1           <- CompleteYears(TheDF = TempStep1,
+                                     LocalBaseL = BaseL )
 
 
     #------------#
@@ -347,7 +348,8 @@ PrepocessIntPricesList      <- function(BaseL,
 
 
     # Completing the information for missing years
-    Step2               <- CompleteYears(TheDF = TempStep2)
+    Step2               <- CompleteYears(TheDF = TempStep2,
+                                         LocalBaseL = BaseL)
 
 
     #------------#
@@ -403,12 +405,17 @@ PrepocessIntPricesList      <- function(BaseL,
 
 
 PrepareInternationalPrices      <- function(DD        = DL$Scenario1,
-                                            BaseL     = BaseList,
-                                            IPList    = PrepocessIntPricesList(BaseList,
-                                                                               RInputs_InternationalPrices_RegionAssumptions,
-                                                                               RInputs_InternationalPrices_RegionMarket,
-                                                                               RInputs_InternationalPrices_IntPrices),
+                                            BaseL,
+                                            IPList,
                                             SelSource = 'IMF-IEA'){
+
+
+    # IPList is normally obtained in the main function and passed it as input here:
+    # IPList = PrepocessIntPricesList(BaseL,
+    #                          RInputs_InternationalPrices_RegionAssumptions,
+    #                          RInputs_InternationalPrices_RegionMarket,
+    #                          RInputs_InternationalPrices_IntPrices)
+
 
     #------------#
     #-- STEP 1 --#

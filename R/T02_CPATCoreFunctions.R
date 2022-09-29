@@ -29,7 +29,7 @@
 
 
 ForecastDomPrices     <- function(DD,                       # D matrix for current scenario
-                                  BaseL     = BaseList,
+                                  BaseL,
                                   PolInputs = MTI[[ss]],    # List of all elements detailing the policy applied
                                   ScenName  = ss,
                                   Year){                    # Year of calculations (or tt if year-index)
@@ -129,7 +129,7 @@ ForecastDomPrices     <- function(DD,                       # D matrix for curre
                                                     (DD$PCtrl_alpha0-1)*
                                                     coalesce(DD$IntPrices[,tt] - DD$IntPrices[,tt-1], 0)*
                                                     PolInputs$PhaseOut_pc[,tt],
-                                                  rowMeans(DD$cs[,c(t0:(t0-BaseList$BackYears+1))]) ),
+                                                  rowMeans(DD$cs[,c(t0:(t0-BaseL$BackYears+1))]) ),
                                            # To apply the operation by rows:
                                            MARGIN = 1,
                                            FUN = max),
@@ -216,7 +216,7 @@ ForecastDomPrices     <- function(DD,                       # D matrix for curre
 
 
 MitEQ  <- function(DD,                       # D matrix for current scenario
-                   BaseL     = BaseList,
+                   BaseL,
                    PolInputs = MTI[[ss]],    # List of all elements detailing the policy applied
                    Year){
 
@@ -278,7 +278,7 @@ MitEQ  <- function(DD,                       # D matrix for current scenario
 
 
 Emissions   <- function(DD,                       # D matrix for current scenario
-                        BaseL     = BaseList,
+                        BaseL,
                         PolInputs = MTI[[ss]],    # List of all elements detailing the policy applied
                         Year,
                         AdjFactor = 1.12){
