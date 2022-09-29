@@ -23,7 +23,7 @@
 #' @export
 #' @import tidyr dplyr purrr
 #'
-#' @examples
+
 
 PrepareGDPRelativeToBase <- function(DD,
                                      BaseL = BaseList,
@@ -121,7 +121,7 @@ PrepareGDPRelativeToBase <- function(DD,
 #' @export
 #' @import tidyr dplyr purrr
 #'
-#' @examples
+
 
 CompleteYears           <- function(TheDF,                     # The data frame in which we will add the missing years
                                     BaseL = BaseList,          # List including relevant information about years chosen
@@ -219,7 +219,7 @@ CompleteYears           <- function(TheDF,                     # The data frame 
 #' @export
 #' @import tidyr dplyr purrr
 #'
-#' @examples
+
 
 PrepocessIntPricesList      <- function(BaseL,
                                         RInputs_InternationalPrices_RegionAssumptions,
@@ -399,7 +399,7 @@ PrepocessIntPricesList      <- function(BaseL,
 #' @export
 #' @import tidyr dplyr purrr
 #'
-#' @examples
+
 
 
 PrepareInternationalPrices      <- function(DD        = DL$Scenario1,

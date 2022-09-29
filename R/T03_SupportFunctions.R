@@ -20,7 +20,6 @@
 #' @export
 #' @import tidyr dplyr purrr
 #'
-#' @examples
 
 CreateCP      <- function(StartCPYear  = 2023,
                           TargetCPYear = 2030,
@@ -66,7 +65,6 @@ CreateCP      <- function(StartCPYear  = 2023,
 #' @export
 #' @import tidyr dplyr purrr
 #'
-#' @examples
 
 Convert_D_to_T      <- function(DD,
                                 ColCateg     = 'Year',
@@ -175,7 +173,6 @@ Convert_D_to_T      <- function(DD,
 #' @export
 #' @import tidyr dplyr purrr
 #'
-#' @examples
 
 Convert_T_to_D      <- function(TT,
                                 ColVarNames  = 'Variable',    # Column storing the variable's names

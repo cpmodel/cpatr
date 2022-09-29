@@ -26,7 +26,7 @@
 #' @export
 #' @import tidyr dplyr purrr
 #'
-#' @examples
+
 
 ForecastDomPrices     <- function(DD,                       # D matrix for current scenario
                                   BaseL     = BaseList,
@@ -213,7 +213,7 @@ ForecastDomPrices     <- function(DD,                       # D matrix for curre
 #' @export
 #' @import tidyr dplyr purrr
 #'
-#' @examples
+
 
 MitEQ  <- function(DD,                       # D matrix for current scenario
                    BaseL     = BaseList,
@@ -275,7 +275,7 @@ MitEQ  <- function(DD,                       # D matrix for current scenario
 #' @export
 #' @import tidyr dplyr purrr
 #'
-#' @examples
+
 
 Emissions   <- function(DD,                       # D matrix for current scenario
                         BaseL     = BaseList,
