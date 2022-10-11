@@ -25,15 +25,15 @@ insert_table <- function(con,
                          Date,
                          Comments){
 
-    meta <- tibble(TableID = TableID,
-                   TableName = TableName,
-                   TableCategory = TableCategory,
-                   Date = Date,
-                   Comments = Comments
-    )
+  meta <- tibble(TableID = TableID,
+                 TableName = TableName,
+                 TableCategory = TableCategory,
+                 Date = Date,
+                 Comments = Comments
+  )
 
-    dbWriteTable(con, TableID, data, overwrite = T)
-    dbWriteTable(con, 'meta_data', meta, append = T)
+  dbWriteTable(con, TableID, data, overwrite = T)
+  dbWriteTable(con, 'meta_data', meta, append = T)
 }
 
 
@@ -61,11 +61,10 @@ fetch_table <-function(con, TableID){
   output$data   <- RPostgres::dbGetQuery(con, paste("SELECT * FROM", TableID)) %>% as_tibble()
 
   output$meta_data <- RPostgres::dbGetQuery(con, "SELECT * FROM meta_data") %>% as_tibble() %>%
-                        dplyr::filter(TableID == id)
+    dplyr::filter(TableID == id)
 
   return(output)
 }
-
 
 
 

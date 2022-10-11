@@ -2,9 +2,8 @@
 title: "README"
 author: "Arkadi Avanesyan"
 date: "`r Sys.Date()`"
-output:
-  md_document:
-    variant: markdown_github
+output: html
+
 ---
 
 _Logo placeholder?_
