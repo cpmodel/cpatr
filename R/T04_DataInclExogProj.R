@@ -191,6 +191,14 @@ CompleteYears           <- function(TheDF,                     # The data frame 
             tempDF      <- tempDF %>%
                             mutate('{tt}' := Tminus1*(Tminus1/Tminus2))
         }
+    }else if(ProjY == 'ConstantValue'){
+
+      # Retrieving the last year available to fill the remaining years
+
+        for(tt in c(ColsToInclude[!ColsToInclude %in% YBefore])){
+            tempDF      <- tempDF %>%
+                              mutate('{tt}' := unlist( tempDF %>% select( as.character( max(ExistingYears) ) ) ) )
+        }
     }
 
 
@@ -232,7 +240,7 @@ PrepocessIntPricesList      <- function(BaseL,
     LU        <- BaseL$LU
     # Several steps needed:
     # Step1: Historical data for gso, die, lpg and ker, and expansion by country, sector and fuel
-    #       - After data on regional prices for gso, die, lpg and ker is read, it has to be expanded by country instead of region
+    #       - After data on regional prices for gso, die, lpg and ker is read, it is expanded by country instead of region
     #       - This is done for the full expansion Country, Sector, Fuel. Filter afterwards to keep only relevant fuels
     #       - Expanding data for all required years
     # Step2: Historical data and projection of prices for oop, coa and nga
@@ -277,7 +285,8 @@ PrepocessIntPricesList      <- function(BaseL,
 
     # Completing the dataframe time coverage:
     Step1           <- CompleteYears(TheDF = TempStep1,
-                                     LocalBaseL = BaseL )
+                                     LocalBaseL = BaseL,
+                                     ProjY = 'ConstantValue')
 
 
     #------------#
@@ -349,7 +358,8 @@ PrepocessIntPricesList      <- function(BaseL,
 
     # Completing the information for missing years
     Step2               <- CompleteYears(TheDF = TempStep2,
-                                         LocalBaseL = BaseL)
+                                         LocalBaseL = BaseL,
+                                         ProjY = 'ConstantValue')
 
 
     #------------#

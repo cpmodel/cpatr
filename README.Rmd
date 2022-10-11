@@ -27,6 +27,8 @@ Current stable version is available on [CRAN](https://CRAN.R-project.org/) via
 ### Local version
 
 ```{r eval=FALSE, include=TRUE}
+remove.packages('cpatr')
+
 devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))
 
 devtools::install(build_vignettes = TRUE, upgrade = 'never')
