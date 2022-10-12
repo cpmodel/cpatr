@@ -27,6 +27,7 @@
 'RInputs_InternationalPrices_RegionAssumptions'
 
 #' RInputs_InternationalPrices_RegionMarket
+#' @format tibble
 'RInputs_InternationalPrices_RegionMarket'
 
 
