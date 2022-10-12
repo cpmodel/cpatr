@@ -41,7 +41,9 @@ SimpleCPAT        <- function(HistoricDataset,
 
 
 
-    print(RInputs_InternationalPrices_IntPrices)
+    print('Calling from the package cpatr::')
+    print(cpatr::RInputs_RawGDPRelativeToBase)
+
 
     # # Initializing the Scenarios:
     # MTI               <- list()
