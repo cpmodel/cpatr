@@ -1,5 +1,5 @@
 # rm(list=ls())
-
+library(cpatr)
 
 # You can learn more about package authoring with RStudio at:
 #
@@ -52,7 +52,7 @@ SimpleCPAT        <- function(HistoricDataset,
     # GDR relative to base (equal for all scenarios)
     DB            <- PrepareGDPRelativeToBase(DD = HistoricDataset,
                                               BaseL = BaseList,
-                                              RInputs_RawGDPRelativeToBase)
+                                              RawGDPRelativeToBase = RInputs_RawGDPRelativeToBase)
 
 
 
