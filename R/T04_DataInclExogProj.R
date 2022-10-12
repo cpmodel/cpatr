@@ -66,7 +66,9 @@ PrepareGDPRelativeToBase <- function(DD,
     LastYearAvailable   <- as.character(max(RawGDPRelToBase$Year))
 
     Step1.1             <- GDPRelToBase %>%
-                            select(CountryCode, as.character(all_of(as.numeric(LastYearAvailable))-1), LastYearAvailable) %>%
+                            select(CountryCode,
+                                   as.character(all_of(as.numeric(LastYearAvailable))-1),
+                                   all_of(LastYearAvailable)) %>%
                             set_names(c('CountryCode', 'Previous', 'Last')) %>%
                             # Gross GDP growth rate. Assumed constant in the remaining years
                             mutate(LastGDPgrowth = Last/Previous) %>%
@@ -104,6 +106,7 @@ PrepareGDPRelativeToBase <- function(DD,
 
 }
 
+
 ################################################
 ##   FUNCTION TO FILL DATA FOR MISSING YEARS  ##
 ################################################
@@ -126,7 +129,8 @@ PrepareGDPRelativeToBase <- function(DD,
 CompleteYears           <- function(TheDF,                     # The data frame in which we will add the missing years
                                     LocalBaseL,
                                     HistY = 'with_NA',         # Rule used to complete the data regarding historical years
-                                    ProjY = 'ConstantGrowth'){ # Rule used to complete the data for projected years
+                                    ProjY = 'ConstantGrowth',  # Rule for projected years: ConstantGrowth, ConstantValue, Relative
+                                    ReferenceVal){             # Time series to be used as reference if ProjY == 'Relative'
 
     # Initializing the matrix that will be used for manipulation
     tempDF          <- TheDF
@@ -193,11 +197,28 @@ CompleteYears           <- function(TheDF,                     # The data frame 
         }
     }else if(ProjY == 'ConstantValue'){
 
-      # Retrieving the last year available to fill the remaining years
+        # Retrieving the last year available to fill the remaining years
 
         for(tt in c(ColsToInclude[!ColsToInclude %in% YBefore])){
             tempDF      <- tempDF %>%
                               mutate('{tt}' := unlist( tempDF %>% select( as.character( max(ExistingYears) ) ) ) )
+        }
+    }else if(ProjY == 'Relative'){
+
+        # Evolution follows the growth rate of another variable
+
+        for(tt in c(ColsToInclude[!ColsToInclude %in% YBefore])){
+
+            # Reference time series values
+            Ref_T       <- as.numeric(ReferenceVal[as.character( as.numeric(tt) )])
+            Ref_Tminus1 <- as.numeric(ReferenceVal[as.character( as.numeric(tt) - 1 )])
+
+            # Previous observation on the current series
+            Tminus1     <- unlist( tempDF %>% select( as.character( as.numeric(tt)-1 ) ) )
+
+            # Including the new column for each year
+            tempDF      <- tempDF %>%
+                            mutate('{tt}' := Tminus1*(Ref_T/Ref_Tminus1))
         }
     }
 
@@ -229,7 +250,7 @@ CompleteYears           <- function(TheDF,                     # The data frame 
 #'
 
 
-PrepocessIntPricesList      <- function(BaseL,
+PrepocessIntPricesList      <- function(BaseL = BaseList_AllCountries,
                                         RInputs_InternationalPrices_RegionAssumptions,
                                         RInputs_InternationalPrices_RegionMarket,
                                         RInputs_InternationalPrices_IntPrices){
@@ -239,18 +260,83 @@ PrepocessIntPricesList      <- function(BaseL,
     # Loading the lookups:
     LU        <- BaseL$LU
     # Several steps needed:
-    # Step1: Historical data for gso, die, lpg and ker, and expansion by country, sector and fuel
+    # Step1: Historical data and projection of prices for oop, coa and nga
+    #       - Expanding information by country, sector, fuel, and for all years
+    # Step2: Historical data for gso, die, lpg and ker, and expansion by country, sector and fuel
     #       - After data on regional prices for gso, die, lpg and ker is read, it is expanded by country instead of region
     #       - This is done for the full expansion Country, Sector, Fuel. Filter afterwards to keep only relevant fuels
     #       - Expanding data for all required years
-    # Step2: Historical data and projection of prices for oop, coa and nga
-    #       - Expanding information by country, sector, fuel, and for all years
     # Step3: Set the AdValFixed vector, at expanded level by country, sector and fuel, as a separate tibble
     # Step4: Report data as a list
 
 
     #------------#
     #-- STEP 1 --#
+    #------------#
+
+    # Information on which region applies for each country, and how to consider taxes (fixed or ad valorem)
+    # IntPr_RegMarket   <- read_excel('data/Prices/RInputs_InternationalPrices.xlsx', sheet = 'RegionMarket') %>%
+    #                       select(-Country) %>%
+    #                       # Adopting PascalCase convention
+    #                       rename('AdValFixed' = `Baseline taxes are ad-valorem or fixed?`,
+    #                              'Market' = MarketAssumption)
+
+    IntPr_RegMarket   <- RInputs_InternationalPrices_RegionMarket %>%
+                          select(-Country) %>%
+                          # Adopting PascalCase convention
+                          rename('AdValFixed' = `Baseline taxes are ad-valorem or fixed?`,
+                                 'Market' = MarketAssumption)
+
+    # This step still provides information in nominal terms
+    RawStep1            <- RInputs_InternationalPrices_IntPrices %>%
+                            # Dropping some metadata columns:
+                            select(-c(SourceDescription, FuelDescription, Unit)) %>%
+                            mutate(across(-c('Source':'Market'), as.numeric)) %>%
+                            # To avoid receiving the message: "NAs introduced by coercion"
+                            suppressWarnings() %>%
+                            pivot_longer(-c('Source':'Market'), names_to = 'Year', values_to = 'Value') %>%
+                            # Expanding to FuelCode is more robust than renaming the column
+                            left_join(LU$FuelTypes, by = 'FuelType') %>%
+                            select(Source, FuelCode, Market, Year, Value) %>%
+                            filter(Year %in% BaseL$AllYears) %>%
+                            pivot_wider(names_from = 'Year', values_from = 'Value') %>%
+                            rename('MarketRaw' = Market) %>%
+                            # Adding information on mappings to country, regions and markets
+                            left_join(LU$ExpMarketIntPr, by = 'MarketRaw') %>%
+                            left_join(IntPr_RegMarket, by = 'Market') %>%
+                            right_join(BaseL$IDcols, by = c('CountryCode', 'FuelCode')) %>%
+                            # AdValFixed could be recorded to a separate file if needed
+                            select(Source, CountryCode, SectorCode, FuelCode, where(is.numeric))
+
+
+    # Fully expanding the data to country, sector and fuel for oop, coa and nga
+    # Still in nominal terms
+    TempStep1.1         <- BaseL$IDcols %>%
+                            left_join(RawStep1, by = c('CountryCode', 'SectorCode', 'FuelCode') ) %>%
+                            filter(FuelCode %in% c('oop', 'coa', 'nga'))
+
+
+    # TempStep1.2: Historical data for oop, coa and nga converted into real terms
+    # NOTE: Only THESE international prices are transformed into real terms using the GDP deflator instead of the CPI
+    TempStep1.2         <- TempStep1.1 %>%
+                            pivot_longer(cols = -c(CountryCode, SectorCode, FuelCode, Source),
+                                         names_to = 'Year', values_to = "Value") %>%
+                            mutate(Year = as.numeric(Year)) %>%
+                            left_join(BaseL$DiscountFactorDefl, by = "Year") %>%
+                            rename("CurrentValue" = Value) %>%
+                            mutate(Value = CurrentValue * DiscountFactor) %>%
+                            select(-c(CurrentValue, DiscountFactor)) %>%
+                            pivot_wider(names_from = 'Year', values_from = 'Value')
+
+    # International prices of oil, coal and natural gas:
+    # Completing the information for missing years.
+    # We have data for the entire period, so the process should be redundant
+    Step1               <- CompleteYears(TheDF = TempStep1.2,
+                                         LocalBaseL = BaseL,
+                                         ProjY = 'ConstantValue')
+
+    #------------#
+    #-- STEP 2 --#
     #------------#
 
     # Prices of fuels to be assigned by region (This applies to: gso, die, lpg and ker)
@@ -275,91 +361,27 @@ PrepocessIntPricesList      <- function(BaseL,
                         pivot_wider(names_from = 'Year', values_from = 'Value')
 
 
-    # TempStep1: Historical data for gso, die, lpg and ker
-    TempStep1       <- BaseL$IDcols %>%
+    # TempStep1.1: Historical data for gso, die, lpg and ker
+    # In nominal terms
+    TempStep2       <- BaseL$IDcols %>%
                         left_join(LU$CountryCode, by = 'CountryCode') %>%
                         select(CountryCode, SectorCode, FuelCode, Region) %>%
                         left_join(IntPr_RegAssum, by = c('Region', 'FuelCode')) %>%
                         filter(FuelCode %in% c('gso', 'die', 'lpg', 'ker')) %>%
                         select(-Region)
 
-    # Completing the dataframe time coverage:
-    Step1           <- CompleteYears(TheDF = TempStep1,
-                                     LocalBaseL = BaseL,
-                                     ProjY = 'ConstantValue')
-
-
-    #------------#
-    #-- STEP 2 --#
-    #------------#
-
-    # Information on which region applies for each country, and how to consider taxes (fixed or ad valorem)
-    # IntPr_RegMarket   <- read_excel('data/Prices/RInputs_InternationalPrices.xlsx', sheet = 'RegionMarket') %>%
-    #                       select(-Country) %>%
-    #                       # Adopting PascalCase convention
-    #                       rename('AdValFixed' = `Baseline taxes are ad-valorem or fixed?`,
-    #                              'Market' = MarketAssumption)
-
-    # NOTE: Dropping the dependency on Excel files
-    # load('data/RInputs_InternationalPrices_RegionMarket.rda')
-    IntPr_RegMarket   <- RInputs_InternationalPrices_RegionMarket %>%
-                          select(-Country) %>%
-                          # Adopting PascalCase convention
-                          rename('AdValFixed' = `Baseline taxes are ad-valorem or fixed?`,
-                                 'Market' = MarketAssumption)
-
-
-    # Reading raw data and implementing first expansions
-    # RawStep2            <- read_excel('data/Prices/RInputs_InternationalPrices.xlsx', sheet = 'IntPrices') %>%
-    #                         # Dropping some metadata columns:
-    #                         select(-c(SourceDescription, FuelDescription, Unit)) %>%
-    #                         mutate(across(-c('Source':'Market'), as.numeric)) %>%
-    #                         pivot_longer(-c('Source':'Market'), names_to = 'Year', values_to = 'Value') %>%
-    #                         # Expanding to FuelCode is more robust than renaming the column
-    #                         left_join(LU$FuelTypes, by = 'FuelType') %>%
-    #                         select(Source, FuelCode, Market, Year, Value) %>%
-    #                         filter(Year %in% BaseL$AllYears) %>%
-    #                         pivot_wider(names_from = 'Year', values_from = 'Value') %>%
-    #                         rename('MarketRaw' = Market) %>%
-    #                         # Adding information on mappings to country, regions and markets
-    #                         left_join(LU$ExpMarketIntPr, by = 'MarketRaw') %>%
-    #                         left_join(IntPr_RegMarket, by = 'Market') %>%
-    #                         right_join(BaseL$IDcols, by = c('CountryCode', 'FuelCode')) %>%
-    #                         # AdValFixed could be recorded to a separate file if needed
-    #                         select(Source, CountryCode, SectorCode, FuelCode, where(is.numeric))
-
-    # NOTE: Dropping the dependency on Excel files
-    # load('data/RInputs_InternationalPrices_IntPrices.rda')
-    RawStep2            <- RInputs_InternationalPrices_IntPrices %>%
-                            # Dropping some metadata columns:
-                            select(-c(SourceDescription, FuelDescription, Unit)) %>%
-                            mutate(across(-c('Source':'Market'), as.numeric)) %>%
-                            pivot_longer(-c('Source':'Market'), names_to = 'Year', values_to = 'Value') %>%
-                            # Expanding to FuelCode is more robust than renaming the column
-                            left_join(LU$FuelTypes, by = 'FuelType') %>%
-                            select(Source, FuelCode, Market, Year, Value) %>%
-                            filter(Year %in% BaseL$AllYears) %>%
-                            pivot_wider(names_from = 'Year', values_from = 'Value') %>%
-                            rename('MarketRaw' = Market) %>%
-                            # Adding information on mappings to country, regions and markets
-                            left_join(LU$ExpMarketIntPr, by = 'MarketRaw') %>%
-                            left_join(IntPr_RegMarket, by = 'Market') %>%
-                            right_join(BaseL$IDcols, by = c('CountryCode', 'FuelCode')) %>%
-                            # AdValFixed could be recorded to a separate file if needed
-                            select(Source, CountryCode, SectorCode, FuelCode, where(is.numeric))
-
-
-
-    # Fully expanding the data to country, sector and fuel
-    TempStep2           <- BaseL$IDcols %>%
-                            left_join(RawStep2, by = c('CountryCode', 'SectorCode', 'FuelCode') ) %>%
-                            filter(FuelCode %in% c('oop', 'coa', 'nga'))
-
-
-    # Completing the information for missing years
-    Step2               <- CompleteYears(TheDF = TempStep2,
-                                         LocalBaseL = BaseL,
-                                         ProjY = 'ConstantValue')
+    # TempStep1.2: Historical data for gso, die, lpg and ker converted into real terms
+    # NOTE:   The completion of this data set depends on the price source selected by the user
+    #         This, as the evolution of these prices depends on the evolution of oil prices
+    Step2           <- TempStep2 %>%
+                        pivot_longer(cols = -c(CountryCode, SectorCode, FuelCode),
+                                     names_to = 'Year', values_to = "Value") %>%
+                        mutate(Year = as.numeric(Year)) %>%
+                        left_join(BaseL$DiscountFactorCPI, by = "Year") %>%
+                        rename("CurrentValue" = Value) %>%
+                        mutate(Value = CurrentValue * DiscountFactor) %>%
+                        select(-c(CurrentValue, DiscountFactor)) %>%
+                        pivot_wider(names_from = 'Year', values_from = 'Value')
 
 
     #------------#
@@ -377,10 +399,11 @@ PrepocessIntPricesList      <- function(BaseL,
     #------------#
 
     # Reporting all variables as a list for further consolidation after receiving the user's choices
+    # Prices from single and multiple sources have all been converted into real terms
 
     IntPrices                   <- list()
-    IntPrices$IPSingleSource    <- Step1            # information for gso, die, lpg and ker (single source)
-    IntPrices$IPMultSources     <- Step2            # information for oop, coa and nga (multiple sources)
+    IntPrices$IPMultSources     <- Step1            # information for oop, coa and nga (multiple sources)
+    IntPrices$IPSingleSource    <- Step2            # information for gso, die, lpg and ker (single source)
     IntPrices$TibAdValFixed     <- Step3            # Tibble with the AdValFixed vector
 
     return(IntPrices)
@@ -420,32 +443,14 @@ PrepareInternationalPrices      <- function(DD        = DL$Scenario1,
                                             SelSource = 'IMF-IEA'){
 
 
-    # IPList is normally obtained in the main function and passed it as input here:
-    # IPList = PrepocessIntPricesList(BaseL,
-    #                          RInputs_InternationalPrices_RegionAssumptions,
-    #                          RInputs_InternationalPrices_RegionMarket,
-    #                          RInputs_InternationalPrices_IntPrices)
-
+    # IPList contains international prices from single/multiple sources, in real terms
+    # It is computed on the main function, after receiving the input from the user on the selected source
 
     #------------#
     #-- STEP 1 --#
     #------------#
 
-    # Treating the international price data that for die, gso, lpg and ker
-    # Reading and creating a "layer" of international prices for the data section that is not affected by the user's choice
-
-    # These prices come from different markets/regions, but are mapped already to each country, sector and fuel
-
-    # Expanding this to all possible country, fuel and sector, so that NA will appear.
-    Step1       <- BaseL$IDcols %>%
-                    left_join(IPList$IPSingleSource, by = c('CountryCode', 'SectorCode', 'FuelCode'))
-                    # Testing if I can run with NA prior to
-                    # NAs can replaced by 0s, to then add the layers on top of each other
-
-    #------------#
-    #-- STEP 2 --#
-    #------------#
-
+    # This fuels are done first, as they depend on the user's choice of source, and they affect the evolution of other fuels
     # Treating the international price data that for coa, nga and oop
     # Reading and creating a "layer" of international prices for the data section that will be affected by the user's choice
 
@@ -456,13 +461,42 @@ PrepareInternationalPrices      <- function(DD        = DL$Scenario1,
     }
 
     # Filtering the information according to the source selected by the user
-    FilStep2        <- IPList$IPMultSources %>%
+    FilStep1        <- IPList$IPMultSources %>%
                         filter(Source == SelSource) %>%
                         select(-Source)
 
     # Expanding this to all possible country, fuel and sector, so that NA will appear.
-    Step2           <- BaseL$IDcols %>%
-                        left_join(FilStep2, by = c('CountryCode', 'SectorCode', 'FuelCode'))
+    Step1           <- BaseL$IDcols %>%
+                        left_join(FilStep1, by = c('CountryCode', 'SectorCode', 'FuelCode'))
+
+
+
+    #------------#
+    #-- STEP 2 --#
+    #------------#
+
+    # Treating the international price data that for die, gso, lpg and ker
+    # Reading and creating a "layer" of international prices for the data section that is not affected by the user's choice
+
+    # These prices come from different markets/regions, but are mapped already to each country, sector and fuel
+    # However, projections depend on oil prices, which come from multiple sources
+
+    # Vector with selected oil prices
+    OilPrices     <- Step1 %>%
+                      filter(FuelCode == 'oop') %>%
+                      select(-c(CountryCode, SectorCode, FuelCode)) %>%
+                      distinct()
+
+    # Completing the time series for all years:
+    TempStep2     <- CompleteYears(TheDF = IPList$IPSingleSource,
+                                   LocalBaseL = BaseL,
+                                   ProjY = 'Relative',
+                                   ReferenceVal = OilPrices)
+
+    # Expanding this to all possible country, fuel and sector, so that NA will appear.
+    Step2         <- BaseL$IDcols %>%
+                      left_join(TempStep2, by = c('CountryCode', 'SectorCode', 'FuelCode'))
+
 
     #------------#
     #-- STEP 3 --#
@@ -471,12 +505,29 @@ PrepareInternationalPrices      <- function(DD        = DL$Scenario1,
     # Joining both layers from Steps 1 and 2
     # coalesce takes the inputs from the first element, unless they are NAs, in which case it takes it from the second element
     # International prices of non-fossil fuels will appear as NA
-    TempStep3       <- coalesce(Step1, Step2)
+    TempStep3.1     <- coalesce(Step1, Step2)
+
+    # These prices are all expressed in multiple units. Some of those need to be converted into USD/GJ
+    # Conversion factors aftect the energy unit, which is on the denominator of the units, hence the division
+    TempStep3.2     <- TempStep3.1 %>%
+                        pivot_longer(cols = -c(CountryCode, SectorCode, FuelCode), names_to = 'Year', values_to = 'Value') %>%
+                        pivot_wider(names_from = 'FuelCode', values_from = 'Value') %>%
+                        mutate(coa = coa / as.numeric(BaseL$LU$ConvFact %>%
+                                                        filter(FuelCode == 'coa') %>%
+                                                        select(ConversionFactor) ),
+                               nga = nga / as.numeric(BaseL$LU$ConvFact %>%
+                                                        filter(FuelCode == 'nga') %>%
+                                                        select(ConversionFactor) ),
+                               oop = oop / as.numeric(BaseL$LU$ConvFact %>%
+                                                        filter(FuelCode == 'oop') %>%
+                                                        select(ConversionFactor) )) %>%
+                        pivot_longer(cols = -c(CountryCode, SectorCode, Year), names_to = 'FuelCode', values_to = 'Value') %>%
+                        pivot_wider(names_from = 'Year', values_from = 'Value')
 
     # Transforming this into D matrix format
     # This step may be redundant, as TempStep3 was ordered by IDcols, but it makes it more robust
     Step3           <- tibble(BaseL$IDcols,
-                              'IntPrices'  = as.matrix(TempStep3 %>% select(-c('CountryCode', 'SectorCode', 'FuelCode'))))
+                              'IntPrices'  = as.matrix(TempStep3.2 %>% select(-c('CountryCode', 'SectorCode', 'FuelCode'))))
 
     # Including this into the D matrix
 
