@@ -250,7 +250,7 @@ CompleteYears           <- function(TheDF,                     # The data frame 
 #'
 
 
-PrepocessIntPricesList      <- function(BaseL = BaseList_AllCountries,
+PreprocessIntPricesList     <- function(BaseL,
                                         RInputs_InternationalPrices_RegionAssumptions,
                                         RInputs_InternationalPrices_RegionMarket,
                                         RInputs_InternationalPrices_IntPrices){
@@ -287,6 +287,7 @@ PrepocessIntPricesList      <- function(BaseL = BaseList_AllCountries,
                           rename('AdValFixed' = `Baseline taxes are ad-valorem or fixed?`,
                                  'Market' = MarketAssumption)
 
+    # Matching the first set of data (multiple sources) by region
     # This step still provides information in nominal terms
     RawStep1            <- RInputs_InternationalPrices_IntPrices %>%
                             # Dropping some metadata columns:
@@ -321,7 +322,6 @@ PrepocessIntPricesList      <- function(BaseL = BaseList_AllCountries,
     TempStep1.2         <- TempStep1.1 %>%
                             pivot_longer(cols = -c(CountryCode, SectorCode, FuelCode, Source),
                                          names_to = 'Year', values_to = "Value") %>%
-                            mutate(Year = as.numeric(Year)) %>%
                             left_join(BaseL$DiscountFactorDefl, by = "Year") %>%
                             rename("CurrentValue" = Value) %>%
                             mutate(Value = CurrentValue * DiscountFactor) %>%
@@ -361,7 +361,7 @@ PrepocessIntPricesList      <- function(BaseL = BaseList_AllCountries,
                         pivot_wider(names_from = 'Year', values_from = 'Value')
 
 
-    # TempStep1.1: Historical data for gso, die, lpg and ker
+    # TempStep2: Historical data for gso, die, lpg and ker
     # In nominal terms
     TempStep2       <- BaseL$IDcols %>%
                         left_join(LU$CountryCode, by = 'CountryCode') %>%
@@ -370,7 +370,7 @@ PrepocessIntPricesList      <- function(BaseL = BaseList_AllCountries,
                         filter(FuelCode %in% c('gso', 'die', 'lpg', 'ker')) %>%
                         select(-Region)
 
-    # TempStep1.2: Historical data for gso, die, lpg and ker converted into real terms
+    # Step2: Historical data for gso, die, lpg and ker converted into real terms
     # NOTE:   The completion of this data set depends on the price source selected by the user
     #         This, as the evolution of these prices depends on the evolution of oil prices
     Step2           <- TempStep2 %>%
@@ -389,6 +389,7 @@ PrepocessIntPricesList      <- function(BaseL = BaseList_AllCountries,
     #------------#
 
     # AdValFixed tibble by Country, Sector and Fuel
+    # NOTE: This extends the market category for all fuels, despite not having an international price for some of them
     Step3               <- BaseL$IDcols %>%
                             left_join(IntPr_RegMarket, by = 'CountryCode') %>%
                             select(CountryCode, SectorCode, FuelCode, AdValFixed)
@@ -436,11 +437,10 @@ PrepocessIntPricesList      <- function(BaseL = BaseList_AllCountries,
 #'
 
 
-
-PrepareInternationalPrices      <- function(DD        = DL$Scenario1,
+PrepareInternationalPrices      <- function(DD,
                                             BaseL,
                                             IPList,
-                                            SelSource = 'IMF-IEA'){
+                                            SelSource){
 
 
     # IPList contains international prices from single/multiple sources, in real terms
@@ -457,7 +457,7 @@ PrepareInternationalPrices      <- function(DD        = DL$Scenario1,
 
     # If the user provides a non-useful input, we resort to 'IMF-IEA' by default
     if(!SelSource %in% unique(IPList$IPMultSources$Source)){
-        SelSource   <- 'IMF-IEA'
+        SelSource   <- 'IMF-WB'
     }
 
     # Filtering the information according to the source selected by the user
@@ -465,10 +465,9 @@ PrepareInternationalPrices      <- function(DD        = DL$Scenario1,
                         filter(Source == SelSource) %>%
                         select(-Source)
 
-    # Expanding this to all possible country, fuel and sector, so that NA will appear.
+    # Expanding this to all possible combinations of country, fuel and sector, so that NA will appear.
     Step1           <- BaseL$IDcols %>%
                         left_join(FilStep1, by = c('CountryCode', 'SectorCode', 'FuelCode'))
-
 
 
     #------------#
@@ -481,7 +480,7 @@ PrepareInternationalPrices      <- function(DD        = DL$Scenario1,
     # These prices come from different markets/regions, but are mapped already to each country, sector and fuel
     # However, projections depend on oil prices, which come from multiple sources
 
-    # Vector with selected oil prices
+    # Vector with selected oil prices (in real USD per bbl)
     OilPrices     <- Step1 %>%
                       filter(FuelCode == 'oop') %>%
                       select(-c(CountryCode, SectorCode, FuelCode)) %>%
@@ -525,12 +524,12 @@ PrepareInternationalPrices      <- function(DD        = DL$Scenario1,
                         pivot_wider(names_from = 'Year', values_from = 'Value')
 
     # Transforming this into D matrix format
-    # This step may be redundant, as TempStep3 was ordered by IDcols, but it makes it more robust
-    Step3           <- tibble(BaseL$IDcols,
+    # At this stage, prices are already in real terms per GJ (or liter, for the respective fuels)
+    # TempStep3 was not ordered by IDcols, so Step 3 has to be built as this:
+    Step3           <- tibble((TempStep3.2 %>% select(CountryCode, SectorCode, FuelCode)),
                               'IntPrices'  = as.matrix(TempStep3.2 %>% select(-c('CountryCode', 'SectorCode', 'FuelCode'))))
 
     # Including this into the D matrix
-
     DD              <- DD %>%
                         left_join(Step3, by = c('CountryCode', 'SectorCode', 'FuelCode'))
 

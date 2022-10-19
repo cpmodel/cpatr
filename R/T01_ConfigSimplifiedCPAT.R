@@ -3,7 +3,7 @@
 # library(readxl)
 # library(dplyr)
 
-
+#source('R/T01_ConfigSimplifiedCPAT.R)
 #source('R/T02_CPATCoreFunctions.R')
 #source('R/T03_SupportFunctions.R')
 #source('R/T04_DataInclExogProj.R')
@@ -26,9 +26,9 @@
 # ----------------------------- #
 
 
-## ********************************************** ##
-## REPLACE THIS WITH INPUTS READ FROM THE SHINY ! ##
-## ********************************************** ##
+########################################################
+## BASELINE INPUT DEFAULTS FOR THE ALL-COUNTRIES CASE ##
+########################################################
 
 #' Baseline Inputs:
 #' This function reads some pre-loaded scenarios to test CPAT
@@ -46,7 +46,7 @@ BaselineInputs              <- function(BaseL){
     # Dummy data created inside the function until having an interface
     Scenario1                   <- list()
 
-    Scenario1$IntPricesSource   <- 'IMF-IEA'
+    Scenario1$IntPricesSource   <- 'IMF-WB'
     Scenario1$AddExternalityVAT <- FALSE
     # Info on new Carbon Tax
     Scenario1$CTintroYear       <- 2050
@@ -75,7 +75,7 @@ BaselineInputs              <- function(BaseL){
 
     Scenario2                   <- list()
 
-    Scenario2$IntPricesSource   <- 'IMF-IEA'
+    Scenario2$IntPricesSource   <- 'IMF-WB'
     Scenario2$AddExternalityVAT <- FALSE
     # Info on new Carbon Tax
     Scenario2$CTintroYear       <- 2023

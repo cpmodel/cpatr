@@ -32,15 +32,16 @@ ForecastDomPrices     <- function(DD,                       # D matrix for curre
                                   BaseL,
                                   PolInputs = MTI[[ss]],    # List of all elements detailing the policy applied
                                   ScenName  = ss,
-                                  Year){                    # Year of calculations (or tt if year-index)
+                                  Year,
+                                  LastHistYear){                    # Year of calculations (or tt if year-index)
 
 
     # Dummy to test: Year = BaseL$FirstModYear
-
-
     # Forecasting, year-by-year the different components that build up to the retail price
     tt            <- which(colnames(DD$p) == Year)
-    t0            <- which(colnames(DD$p) == (BaseL$FirstModYear - 1))
+    t0            <- which(colnames(DD$p) == as.numeric(LastHistYear))
+
+
 
     ##########################################
     # FORECASTING ACCORDING TO CPAT FORMULAE #
@@ -231,7 +232,7 @@ MitEQ  <- function(DD,                       # D matrix for current scenario
     ##########################################
 
     DD$ec[,tt]    <- DD$ec[,tt-1] *
-                      (( 1 + DD$PostPolGDPgrowth[,tt]) ^ (DD$ElasticityIncome*DD$DiscFactor )) *
+                      (( 1 + DD$PostPolGDPgrowth[,tt]) ^ (DD$ElasticityIncome*DD$DiscFactorMitEQ )) *
                       ( 1 + PolInputs$ExogShockCOVID[,tt] ) * (( DD$p[,tt]/DD$p[,tt-1] )^DD$ElasticityOwnPriceUsage ) *
                       ((( DD$p[,tt]/DD$p[,tt-1] +
                             PolInputs$CovShadowPrice[,tt]*PolInputs$ShadowPrIncr[,tt] )^ DD$ElasticityOwnPriceEffic ) /

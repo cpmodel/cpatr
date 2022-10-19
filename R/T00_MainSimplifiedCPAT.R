@@ -35,9 +35,12 @@
 #' @examples
 
 SimpleCPAT        <- function(HistoricDataset,
-                              BaseList,
-                              UserScen){
+                              FullBaseList,
+                              UserScen,
+                              CountryList){
 
+    # Filtered version for the selected countries
+    BaseList
 
 
     # Initializing the Scenarios:
@@ -49,8 +52,8 @@ SimpleCPAT        <- function(HistoricDataset,
     #------------------------------------------------------------------------------------------------------------#
     # Including data that has both historical information and projections, but does not depend on user's choices #
     #------------------------------------------------------------------------------------------------------------#
-
     # GDR relative to base (equal for all scenarios)
+
     DB            <- PrepareGDPRelativeToBase(DD = HistoricDataset,
                                               BaseL = BaseList,
                                               RawGDPRelativeToBase = RInputs_RawGDPRelativeToBase)
@@ -62,6 +65,15 @@ SimpleCPAT        <- function(HistoricDataset,
     DL              <- list()
 
     ScenarioNames   <- names(MTI)
+
+
+    #-------------------------------------------------------------------------------#
+    # Keeping track of historic data available beyond the chosen first modeled year #
+    #-------------------------------------------------------------------------------#
+
+    LastYearDomPrices     <- as.numeric(last(names(which( colSums(DB$p, na.rm = TRUE) > 0 ))))
+
+
 
 
     for(ss in ScenarioNames){ # ss <- ScenarioNames[1]
@@ -76,10 +88,10 @@ SimpleCPAT        <- function(HistoricDataset,
         # Data on international prices, after the user has selected a data source
         DL[[ss]]    <- PrepareInternationalPrices(DD        = DL[[ss]],
                                                   BaseL     = BaseList,
-                                                  IPList    = PrepocessIntPricesList(BaseList,
-                                                                                     RInputs_InternationalPrices_RegionAssumptions,
-                                                                                     RInputs_InternationalPrices_RegionMarket,
-                                                                                     RInputs_InternationalPrices_IntPrices),
+                                                  IPList    = PreprocessIntPricesList(BaseList,
+                                                                                      RInputs_InternationalPrices_RegionAssumptions,
+                                                                                      RInputs_InternationalPrices_RegionMarket,
+                                                                                      RInputs_InternationalPrices_IntPrices),
                                                   SelSource = MTI[[ss]]$IntPricesSource)
 
 
@@ -102,7 +114,7 @@ SimpleCPAT        <- function(HistoricDataset,
         # -----
         # Discount factor (proportion of estimated to average calibrated income elasticity)
         # Used in the mitigation equation. Relies on GDP post policy, so fixed to 1 for now
-        DL[[ss]]$DiscFactor             <- 1
+        DL[[ss]]$DiscFactorMitEQ        <- 1
 
 
         #---------------------------------------------------------------------------------------#
@@ -150,12 +162,18 @@ SimpleCPAT        <- function(HistoricDataset,
 
         for(yy in c(BaseList$FirstModYear:BaseList$LastModYear)){  # yy <- BaseList$FirstModYear
 
-            # Applying the price algorithm to the current data
-            DL[[ss]]          <- ForecastDomPrices(DD        = DL[[ss]],           # D matrix for the current scenario
-                                                   BaseL     = BaseList,
-                                                   PolInputs = MTI[[ss]],          # List of all elements detailing the policy applied
-                                                   ScenName  = ss,
-                                                   Year      = yy)                 # Year of calculations (or tt if year-index)
+
+            if( yy > LastYearDomPrices){
+
+                # To avoid overwriting the existing obeserved information
+                # Applying the price algorithm to the current data
+                DL[[ss]]          <- ForecastDomPrices(DD                  = DL[[ss]],           # D matrix for the current scenario
+                                                       BaseL               = BaseList,
+                                                       PolInputs           = MTI[[ss]],          # List of all elements detailing the policy applied
+                                                       ScenName            = ss,
+                                                       Year                = yy,
+                                                       LastHistYear        = LastYearDomPrices)
+            }
 
             # Applying the mitigation equation on top of the newly computed prices
             DL[[ss]]          <- MitEQ(DD                    = DL[[ss]],           # D matrix for current scenario
