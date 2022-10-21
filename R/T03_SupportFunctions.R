@@ -276,3 +276,132 @@ Convert_T_to_D      <- function(TT,
     return(OutD)
 
 }
+
+
+
+#####################################
+#  COUNTRY SELECTION AND FILTERING  #
+#####################################
+
+#' This function:
+#' - Filters historic data to keep only that relevant for the selected countries
+#' - It adapts templates and elements from the BaseList to match the new dimensions needed
+#'
+#' @param DD Tibble using matrix columns (D matrix) to be filtered
+#' @param FullBaseL List with pre-defined defaults and templates
+#' @param SelectedCountryList List of selected countries
+#' @param LocalUserScen List of all inputs from user, except the Countries selected
+#'
+#' @return
+#' @export
+#' @import tidyr dplyr purrr
+#'
+
+FocusCountry        <- function(DD,
+                                FullBaseL,
+                                SelectedCountryList,
+                                LocalUserScen){
+
+
+      # This is the number of unique rows needed for each country, and that will be used for the templates
+      SC_NumRows        <- (FullBaseL$IDcols %>%
+                              select(-CountryCode) %>%
+                              distinct() %>%
+                              dim(.) )[1]
+
+      SelectionNumRows  <- length(SelectedCountryList) * SC_NumRows
+
+
+      # ---------------------------------------- #
+      # Adjusting BaseList to the new dimensions
+      # ---------------------------------------- #
+
+      # Initializing the Base List that will be returned to the user
+      FilterBaseL       <- FullBaseL
+
+      # Adjusting the relevant entries of the list
+      FilterBaseL$IDcols      <- FullBaseL$IDcols %>%
+                                  filter( CountryCode %in% CountryList )
+      FilterBaseL$SelCountry  <- SelectedCountryList
+
+      # Adapting the template matrix for the number of countries selected:
+      FilterBaseL$TemplMat    <- FullBaseL$TemplMat[1:SelectionNumRows,]
+
+
+
+      # ------------------------------------------------------- #
+      # Adjusting the Baseline parameters to the new dimensions #
+      # ------------------------------------------------------- #
+
+      # These depend on country selection, so they need to be adjusted
+      BaselineParams      <- BaselineInputs(BaseL = FilterBaseL )[[1]]
+
+
+      # Baseline policy coverage for new carbon tax: a matrix of zeros whose dimensions depend on the number of countries chosen
+      # This is used as reference to build the matrix of policy coverage given user's selection of sectors and fuels
+      BaselineCoverage    <- tibble( FilterBaseL$IDcols %>%
+                                       cbind( BaselineParams$NCTcov_sf ))
+
+
+      # ----------------------------------------------- #
+      # Creating a consistent list of policy parameters #
+      # ----------------------------------------------- #
+
+      # Carbon prices are straightforward to input, but coverage is not.
+      # The coverage matrix needs to be computed based on the country, fuel and sector selection by the user
+      NCTcov_sf           <- BaselineCoverage %>%
+                              pivot_longer(cols = -c(CountryCode,
+                                                     SectorCode,
+                                                     FuelCode),
+                                           names_to = "Year",
+                                           values_to = "Value") %>%
+                              mutate(Value = if_else(CountryCode %in% SelectedCountryList &
+                                                       SectorCode %in% LocalUserScen$SelectedSectors &
+                                                       FuelCode %in% LocalUserScen$SelectedFuels &
+                                                       Year >= LocalUserScen$CTintroYear,
+                                                     1,
+                                                     0) ) %>%
+                              pivot_wider(names_from = "Year", values_from = 'Value') %>%
+                              select(-c(CountryCode, SectorCode, FuelCode)) %>%
+                              as.matrix()
+
+
+      # With the coverage and the inputs provided by the user, the list of parameters as required by the model can be built
+      PolicyParams        <- list("IntPricesSource" = BaselineParams$IntPricesSource,
+                                  "AddExternalityVAT" = BaselineParams$AddExternalityVAT,
+                                  "CTintroYear" = LocalUserScen$CTintroYear,
+                                  "CTintroValue" = LocalUserScen$CTintroValue,
+                                  "CTtargetYear" = LocalUserScen$CTtargetYear,
+                                  "CTtargetValue" = LocalUserScen$CTtargetValue,
+                                  "NCTcov_sf" = NCTcov_sf,
+                                  "ETSintroYear" = BaselineParams$ETSintroYear,
+                                  "ETSintroValue" = BaselineParams$ETSintroValue,
+                                  "ETStargetYear" = BaselineParams$ETStargetYear,
+                                  "ETStargetValue" = BaselineParams$ETStargetValue,
+                                  "NETScov_sf" = BaselineParams$NETScov_sf,
+                                  "ApplyExistingCP" = FALSE,
+                                  "PhaseOut_cs" = BaselineParams$PhaseOut_cs,
+                                  "PhaseOut_ps" = BaselineParams$PhaseOut_ps,
+                                  "PhaseOut_pc" = BaselineParams$PhaseOut_pc,
+                                  "ShadowPrIncr" = BaselineParams$ShadowPrIncr,
+                                  "CovShadowPrice" = BaselineParams$CovShadowPrice,
+                                  "ExogShockCOVID" = BaselineParams$ExogShockCOVID)
+
+
+      # ----------------------------------------------- #
+      # Creating a list of processed elements to return #
+      # ----------------------------------------------- #
+
+      TreatedList         <- list()
+      TreatedList$BaseL   <- FilterBaseL
+      TreatedList$BaselineParams  <- BaselineParams
+      TreatedList$PolicyParams    <- PolicyParams
+
+      return(TreatedList)
+
+}
+
+
+
+
+

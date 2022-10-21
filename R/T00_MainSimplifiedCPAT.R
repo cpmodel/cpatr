@@ -24,9 +24,10 @@
 
 #' CPAT R v0.0.0
 #'
-# @param DB Default dataset with historical information and required format
-# @param BaseList List with global parameters and templates to reconstruct matrices consistent with DD
-# @param MTI List of scenarios, with the inputs to use in each.
+#' @param FullHistoricDataset Default dataset with historical information and required format
+#' @param FullBaseList List with global parameters and templates to reconstruct matrices consistent with DD
+#' @param UserScen Scenario parameters provided by the user
+#' @param CountryList List of countries selected by the user
 #'
 #' @return
 #' @export
@@ -34,19 +35,34 @@
 #'
 #' @examples
 
-SimpleCPAT        <- function(HistoricDataset,
+SimpleCPAT        <- function(FullHistoricDataset,
                               FullBaseList,
                               UserScen,
                               CountryList){
 
+
+    # Keep only country codes consistent with the existint list of countries
+    CleanCountryList  <- CountryList[CountryList %in% FullBaseList$SelCountry]
+
+
     # Filtered version for the selected countries
-    BaseList
+    FilteredData      <- FocusCountry(DD = HistoricDataset,
+                                      FullBaseL = FullBaseList,
+                                      SelectedCountryList = CleanCountryList,
+                                      LocalUserScen = UserScen)
 
-
-    # Initializing the Scenarios:
+    # Initializing the Scenarios with filtered data:
     MTI               <- list()
-    MTI$Scenario1     = BaselineInputs(BaseList)[[1]]
-    MTI$Scenario2     = UserScen
+    MTI$Scenario1     = FilteredData$BaselineParams
+    MTI$Scenario2     = FilteredData$PolicyParams
+
+
+    #------------------------------------------------------------------#
+    # Reading the core inputs after filtering for the country selected #
+    #------------------------------------------------------------------#
+    HistoricDataset   <- FullHistoricDataset %>%
+                          filter(CountryCode %in% CleanCountryList)
+    BaseList          <- FilteredData$BaseL
 
 
     #------------------------------------------------------------------------------------------------------------#
@@ -191,44 +207,8 @@ SimpleCPAT        <- function(HistoricDataset,
                                            AdjFactor         = 1.12)
         }
 
-        # TESTING: Un-comment and select the variable to focus on
-        # varname       <- 'ec'
-        #
-        # AAA           <- DL[[ss]] %>%
-        #                   select(CountryCode, FuelCode, SectorCode, varname) %>%
-        #                   filter(FuelCode %in% c('coa'),
-        #                          SectorCode %in% c('res'))
-        # AAA
-        #
-        # AAA[[varname]] [,'2020']
-
-
-
     }
 
 
     return(DL)
 }
-
-
-# # Test:
-# TestCPAT      <- SimpleCPAT()
-# TestTibble    <- Convert_D_to_T(TestCPAT$Scenario1)
-#
-# saveRDS(TestCPAT, 'R/ExampleOutput.RDS')
-# saveRDS(TestTibble, 'R/BaselineExampleLongTibble.RDS')
-
-# varnames      <- c('ElasticityOwnPriceUsage', 'ElasticityOwnPriceEffic', 'ElasticityIncome', 'ec')
-# ss            <- 'Scenario1'
-# cc            <- c('USA')
-# ff            <- c('coa', 'gso', 'nga', 'die', 'ele')
-# sect          <- c('pow', 'res', 'srv', 'mch', 'ftr')
-#
-#
-# AAA           <- TestCPAT[[ss]] %>%
-#                   select(CountryCode, FuelCode, SectorCode, all_of(varnames)) %>%
-#                   filter(CountryCode %in% cc,
-#                          FuelCode %in% ff,
-#                          SectorCode %in% sect)
-
-#test1 <- CodedCPAT::SimpleCPAT()
