@@ -218,7 +218,7 @@ Convert_T_to_D      <- function(TT,
         # Passing a dynamic name to the filter using !!(sym()). See more:
         # https://stackoverflow.com/questions/48219732/pass-a-string-as-variable-name-in-dplyrfilter
         NumOfCols   <- TT %>%
-                        filter( !!sym(ColVarNames)==nn ) %>%
+                        dplyr::filter( !!sym(ColVarNames)==nn ) %>%
                         select(!!!NamesToWide) %>% unique() %>%
                         unlist() %>%
                         length()
@@ -229,7 +229,7 @@ Convert_T_to_D      <- function(TT,
 
             TempTib     <- TT %>%
                             # !!sym() evaluates the ColVarNames. Searches for it among the colnames of TT. Filters the elements == nn
-                            filter( !!sym(ColVarNames)==nn ) %>%
+                            dplyr::filter( !!sym(ColVarNames)==nn ) %>%
                             pivot_wider(names_from = NamesToWide, values_from = ValuesToWide) %>%
                             # NOTE: for select() there is no need for evaluation or for transformation to symbols
                             select(- ColVarNames)
@@ -250,7 +250,7 @@ Convert_T_to_D      <- function(TT,
             # Case for vectors
             TempTib     <- TT %>%
                             # !!sym() evaluates the ColVarNames and searches for it among the colnames of TT, then filter the elements == nn
-                            filter( !!sym(ColVarNames)==nn ) %>%
+                            dplyr::filter( !!sym(ColVarNames)==nn ) %>%
                             pivot_wider(names_from = ColVarNames, values_from = ValuesToWide) %>%
                             # NOTE: for select() there is no need for evaluation or for transformation to symbols
                             select(- ColCateg)
@@ -321,7 +321,7 @@ FocusCountry        <- function(DD,
 
       # Adjusting the relevant entries of the list
       FilterBaseL$IDcols      <- FullBaseL$IDcols %>%
-                                  filter( CountryCode %in% CountryList )
+                                  dplyr::filter( CountryCode %in% SelectedCountryList )
       FilterBaseL$SelCountry  <- SelectedCountryList
 
       # Adapting the template matrix for the number of countries selected:

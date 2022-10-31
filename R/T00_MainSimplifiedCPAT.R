@@ -61,7 +61,7 @@ SimpleCPAT        <- function(FullHistoricDataset,
     # Reading the core inputs after filtering for the country selected #
     #------------------------------------------------------------------#
     HistoricDataset   <- FullHistoricDataset %>%
-                          filter(CountryCode %in% CleanCountryList)
+                          dplyr::filter(CountryCode %in% CleanCountryList)
     BaseList          <- FilteredData$BaseL
 
 

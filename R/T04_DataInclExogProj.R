@@ -41,11 +41,11 @@ PrepareGDPRelativeToBase <- function(DD,
 
     # NOTE: Dropping the dependency on Excel files
     RawGDPRelToBase     <- RawGDPRelativeToBase %>%
-                            filter(Year %in% all_of(BaseL$AllYears))
+                            dplyr::filter(Year %in% all_of(BaseL$AllYears))
 
     # Finding the GDPFactor for the chosen base year
     GDPFactBaseYear     <- RawGDPRelToBase %>%
-                            filter(Year == BaseY) %>%
+                            dplyr::filter(Year == BaseY) %>%
                             rename('BYGDPF' = GDPFactor) %>%
                             select(CountryCode, BYGDPF)
 
@@ -299,7 +299,7 @@ PreprocessIntPricesList     <- function(BaseL,
                             # Expanding to FuelCode is more robust than renaming the column
                             left_join(LU$FuelTypes, by = 'FuelType') %>%
                             select(Source, FuelCode, Market, Year, Value) %>%
-                            filter(Year %in% BaseL$AllYears) %>%
+                            dplyr::filter(Year %in% BaseL$AllYears) %>%
                             pivot_wider(names_from = 'Year', values_from = 'Value') %>%
                             rename('MarketRaw' = Market) %>%
                             # Adding information on mappings to country, regions and markets
@@ -314,7 +314,7 @@ PreprocessIntPricesList     <- function(BaseL,
     # Still in nominal terms
     TempStep1.1         <- BaseL$IDcols %>%
                             left_join(RawStep1, by = c('CountryCode', 'SectorCode', 'FuelCode') ) %>%
-                            filter(FuelCode %in% c('oop', 'coa', 'nga'))
+                            dplyr::filter(FuelCode %in% c('oop', 'coa', 'nga'))
 
 
     # TempStep1.2: Historical data for oop, coa and nga converted into real terms
@@ -367,7 +367,7 @@ PreprocessIntPricesList     <- function(BaseL,
                         left_join(LU$CountryCode, by = 'CountryCode') %>%
                         select(CountryCode, SectorCode, FuelCode, Region) %>%
                         left_join(IntPr_RegAssum, by = c('Region', 'FuelCode')) %>%
-                        filter(FuelCode %in% c('gso', 'die', 'lpg', 'ker')) %>%
+                        dplyr::filter(FuelCode %in% c('gso', 'die', 'lpg', 'ker')) %>%
                         select(-Region)
 
     # Step2: Historical data for gso, die, lpg and ker converted into real terms
@@ -462,7 +462,7 @@ PrepareInternationalPrices      <- function(DD,
 
     # Filtering the information according to the source selected by the user
     FilStep1        <- IPList$IPMultSources %>%
-                        filter(Source == SelSource) %>%
+                        dplyr::filter(Source == SelSource) %>%
                         select(-Source)
 
     # Expanding this to all possible combinations of country, fuel and sector, so that NA will appear.
@@ -482,7 +482,7 @@ PrepareInternationalPrices      <- function(DD,
 
     # Vector with selected oil prices (in real USD per bbl)
     OilPrices     <- Step1 %>%
-                      filter(FuelCode == 'oop') %>%
+                      dplyr::filter(FuelCode == 'oop') %>%
                       select(-c(CountryCode, SectorCode, FuelCode)) %>%
                       distinct()
 
@@ -512,13 +512,13 @@ PrepareInternationalPrices      <- function(DD,
                         pivot_longer(cols = -c(CountryCode, SectorCode, FuelCode), names_to = 'Year', values_to = 'Value') %>%
                         pivot_wider(names_from = 'FuelCode', values_from = 'Value') %>%
                         mutate(coa = coa / as.numeric(BaseL$LU$ConvFact %>%
-                                                        filter(FuelCode == 'coa') %>%
+                                                        dplyr::filter(FuelCode == 'coa') %>%
                                                         select(ConversionFactor) ),
                                nga = nga / as.numeric(BaseL$LU$ConvFact %>%
-                                                        filter(FuelCode == 'nga') %>%
+                                                        dplyr::filter(FuelCode == 'nga') %>%
                                                         select(ConversionFactor) ),
                                oop = oop / as.numeric(BaseL$LU$ConvFact %>%
-                                                        filter(FuelCode == 'oop') %>%
+                                                        dplyr::filter(FuelCode == 'oop') %>%
                                                         select(ConversionFactor) )) %>%
                         pivot_longer(cols = -c(CountryCode, SectorCode, Year), names_to = 'FuelCode', values_to = 'Value') %>%
                         pivot_wider(names_from = 'Year', values_from = 'Value')
