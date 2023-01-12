@@ -181,7 +181,7 @@ SimpleCPAT        <- function(FullHistoricDataset,
 
             if( yy > LastYearDomPrices){
 
-                # To avoid overwriting the existing obeserved information
+                # To avoid overwriting the existing observed information
                 # Applying the price algorithm to the current data
                 DL[[ss]]          <- ForecastDomPrices(DD                  = DL[[ss]],           # D matrix for the current scenario
                                                        BaseL               = BaseList,

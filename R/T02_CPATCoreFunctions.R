@@ -98,9 +98,13 @@ ForecastDomPrices     <- function(DD,                       # D matrix for curre
 
     # VAT payment: General formulation, to be overwritten for special cases
     DD$vat[,tt]   <- coalesce( DD$vat[,tt-1] / (DD$sp[,tt-1] + DD$txo[,tt-1]*PolInputs$AddExternalityVAT) *
-                                 (DD$sp[,tt-1] + DD$txo[tt]*PolInputs$AddExternalityVAT),
+                                 (DD$sp[,tt] + DD$txo[,tt]*PolInputs$AddExternalityVAT),
                                # Replacing NAs with:
                                0 )
+
+
+
+
 
     # Fixed, Ad Valorem, other taxes [fao]
     DD$fao[,tt]   <- coalesce( (DD$AdValFixed == 'Fixed')*rowMeans(DD$fao[,(t0-2):(t0)]) +
