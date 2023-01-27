@@ -1,30 +1,19 @@
 ---
-title: "README"
+title: "Installation guide"
 date: "`r Sys.Date()`"
 output: html_document
 
 ---
 
-_Logo placeholder?_
+This [R](https://www.R-project.org/) package
 
-This [R](https://www.R-project.org/) package ...  
+### Install from Github
 
-## Installation
-
-### Stable version
-
-Current stable version is available on [CRAN](https://CRAN.R-project.org/) via
-
-```R
-```
-
-### Development version
-```R
-```
-
-### Local version
+The process requires the *devtools* package to be installed in R.
 
 ```{r eval=FALSE, include=TRUE}
+
+# Remove existing version of the package
 remove.packages('cpatr')
 
 devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))
@@ -32,9 +21,6 @@ devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))
 devtools::install(build_vignettes = TRUE, upgrade = 'never')
 ```
 
-
-## Bug/feature request
-...
 
 
 ## News
