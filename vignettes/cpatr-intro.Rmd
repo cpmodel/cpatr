@@ -74,7 +74,8 @@ options(timeout=9999999)
 # Installing from github once the repo has been as "public" (no token required here)
 devtools::install_github('wb-mrio/cpatr',
                          upgrade = 'never',
-                         dependencies = T)
+                         dependencies = T,
+                         build_vignettes = TRUE)
 ```
 
 
@@ -329,7 +330,7 @@ DataRelVar          <- CombinedResults %>%
 
 # Creating the plot for the relative variation
 g.RelVar            <- ggplot(DataRelVar, aes(x = Year, y = RelVar, group = CountryCode)) +
-                        geom_line(aes(linetype = CountryCode, color = CountryCode)) +
+                        geom_line(aes(linetype = CountryCode, color = CountryCode), linewidth = 1.5) +
                         theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
                         labs(x = "Year", y = "Relative variation wrt Baseline (percentage points)") +
                         ggtitle("Relative variation of emissions from gasoline used by the service sector")
@@ -376,7 +377,7 @@ Plotting the obtained results:
 
 # Creating the plot for the relative variation
 g.RelVarAgg       <- ggplot(CombinedResults2, aes(x = Year, y = RelVar, group = CountryCode)) +
-                        geom_line(aes(linetype = CountryCode, color = CountryCode)) +
+                        geom_line(aes(linetype = CountryCode, color = CountryCode), linewidth = 1.5) +
                         theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
                         labs(x = "Year", y = "Relative variation (percentage points)") +
                         ggtitle("Change in total emissions with respect to Baseline")
