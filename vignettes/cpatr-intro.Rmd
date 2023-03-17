@@ -255,6 +255,7 @@ Again, the output will be a list of dataframes, where each dataframe will store 
 # Retrieving the information for any given scenario
 # We can observe the evolution of the baseline for the variables currently considered in cpatr, by selecting this scenario from the object created above:
 head(TestMultiCountry$Scenario1)
+
 ```
 
 To retrieve a particular variable, for instance, the forecast of diesel consumed by the food industry in the selected country, or its retail price, we can first filter the data as follows. Note that this uses the pipe operator '%>%' from the dplyr and tidyverse packages.
