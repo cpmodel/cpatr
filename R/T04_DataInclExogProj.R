@@ -13,13 +13,13 @@
 # NOTE:
 #   - This includes GDP projections beyond the first year of model calculations
 
-#' GDP relative to base year
+#' Computes GDP relative to a user-defined base year
 #'
 #' @param DD Tibble with variables in matrix column format (D matrix)
 #' @param BaseL List with global parameters and templates to reconstruct matrices consistent with DD
 #' @param RawGDPRelativeToBase
 #'
-#' @return
+#' @return The DD tibble provided as input, where GDP has been adjusted to reflect the choice of the base year by the user.
 #' @export
 #' @import tidyr dplyr purrr
 #'
@@ -113,14 +113,14 @@ PrepareGDPRelativeToBase <- function(DD,
 
 # This function includes (as columns) the years that are missing in the data read
 
-#' Include years missing in a dataframe
+#' Fills in the missing trailing or tail data of a dataframe when the model runs for more years than the data is available.
 #'
 #' @param TheDF Dataframe to modify
 #' @param BaseL List with global parameters and templates to reconstruct matrices consistent with DD
 #' @param HistY Rule used to complete the data for historical missing years. (Current option: 'with_NA')
 #' @param ProjY Rule used to complete the data for projected years (Current option: 'ConstantGrowth')
 #'
-#' @return
+#' @return The inputed Dataframe after filling values on years for which there was no data.
 #' @export
 #' @import tidyr dplyr purrr
 #'

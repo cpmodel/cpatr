@@ -1,15 +1,3 @@
-# library(tidyverse)
-# library(magrittr)
-# library(readxl)
-# library(dplyr)
-
-#source('R/T01_ConfigSimplifiedCPAT.R)
-#source('R/T02_CPATCoreFunctions.R')
-#source('R/T03_SupportFunctions.R')
-#source('R/T04_DataInclExogProj.R')
-
-# In absence of user's inputs, I need a matrix of 0 with the proper dimensions. This is already included in BaseList
-# load('data/BaseList.rda')
 
 #-----------------------------------------------------------------------#
 #- Temporarily introducing here some dummy replacement for user inputs -#
@@ -30,13 +18,12 @@
 ## BASELINE INPUT DEFAULTS FOR THE ALL-COUNTRIES CASE ##
 ########################################################
 
-#' Baseline Inputs:
-#' This function reads some pre-loaded scenarios to test CPAT
+#' Reads some pre-loaded scenarios to test CPAT
 #'
-#' @return
 #' @export
 #' @import tidyr dplyr purrr tidyverse readxl readr stringr
-#' @param BaseL BaseList included in cpatr with templates
+#' @param BaseL BaseList included in cpatr with required lookups and useful templates
+#' @return A list with two scenarios. A default baseline and a default policy.
 
 BaselineInputs              <- function(BaseL){
 

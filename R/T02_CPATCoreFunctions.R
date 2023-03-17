@@ -14,7 +14,7 @@
 
 # Function to forecast domestic prices based on historical data, CPAT assumptions, and user-defined options
 
-#' Domestic prices forecasting
+#' Algorithm to forecast domestic fossil fuel prices and price components
 #'
 #' @param DD Tibble with historical information and required structure in matrix column format (D-matrix)
 #' @param BaseL List with global parameters and templates to reconstruct matrices consistent with DD
@@ -22,7 +22,7 @@
 #' @param ScenName Scenario name, consistent with the names used in PolInputs
 #' @param Year Year of simulation. The process builds the forecast by yearly time-steps
 #'
-#' @return
+#' @return The input tibble, extended with information about prices for the period in question.
 #' @export
 #' @import tidyr dplyr purrr
 #'
@@ -207,14 +207,14 @@ ForecastDomPrices     <- function(DD,                       # D matrix for curre
 #   - Calculates energy consumption for a given time step
 #   - Reads the D matrix and fills the EC table for the selected year
 
-#' Energy Use Equations
+#' Simplified energy use equation and calculations. Needs a power sector model to be comparable with CPAT Excel's results.
 #'
 #' @param DD Tibble with historical information and required structure in matrix column format (D-matrix)
 #' @param BaseL List with global parameters and templates to reconstruct matrices consistent with DD
 #' @param PolInputs List of policy details to consider for the current scenario
 #' @param Year Year of simulation. The process builds the forecast by yearly time-steps
 #'
-#' @return
+#' @return The input DD tibble, where energy consumption has been computed for the year in question.
 #' @export
 #' @import tidyr dplyr purrr
 #'
@@ -268,7 +268,7 @@ MitEQ  <- function(DD,                       # D matrix for current scenario
 #  This function:
 #   - Computes Emissions based on energy consumption, emission factors and a factor adjustment
 
-#' CO2 Emissions calculation
+#' CO2 Emissions calculation. Uses emission factors and energy consumption to estimate emissions by country, sector and fuel.
 #'
 #' @param DD Tibble with historical information and required structure in matrix column format (D-matrix)
 #' @param BaseL List with global parameters and templates to reconstruct matrices consistent with DD
@@ -276,7 +276,7 @@ MitEQ  <- function(DD,                       # D matrix for current scenario
 #' @param Year Year of simulation. The process builds the forecast by yearly time-steps
 #' @param AdjFactor Dummy constant to be replaced by country-specific data or by 1 (when using implicit EFs)
 #'
-#' @return
+#' @return The input DD matrix where emissions for the year in question have been computed.
 #' @export
 #' @import tidyr dplyr purrr
 #'

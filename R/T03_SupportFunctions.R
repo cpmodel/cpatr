@@ -16,7 +16,7 @@
 #' @param TargetCP Target value for the carbon price to reach by TargetCPYear
 #' @param TemplMat Template matrix of 0s, with number of rows and columns consistent with the D matrix.
 #'
-#' @return
+#' @return A matrix with the required dimensions including the carbon price trajectory for all countries.
 #' @export
 #' @import tidyr dplyr purrr
 #'
@@ -55,13 +55,13 @@ CreateCP      <- function(StartCPYear  = 2023,
 # This function:
 #   - Performs the equivalent of a pivot_longer on a tibble built with matrix columns
 
-#' Convert matrix column into longer tibble
+#' Converts a tibble composed of matrix columns into tibble with a single numerical column. Used for reporting purposes.
 #'
 #' @param DD Tibble using matrix columns (D matrix) to be transformed into longer format
 #' @param ColCateg Name of the variable that will store the current column names of DD
 #' @param ReplColCateg Entry to replace the ColCateg for vectors of DD that are not matrix columns
 #'
-#' @return
+#' @return Tibble with a single numerical column obtained after performing a pivot_longer on each column matrix.
 #' @export
 #' @import tidyr dplyr purrr
 #'
@@ -147,12 +147,7 @@ Convert_D_to_T      <- function(DD,
 
 }
 
-# Testing <- Convert_D_to_T()
-#
-# unique(Testing$Variable)
-#
-# saveRDS(Testing, 'integration/ExampleDtoTibble.RDS')
-# dim(Testing)
+
 
 
 #########################################
@@ -162,14 +157,14 @@ Convert_D_to_T      <- function(DD,
 # This process is simpler but has much more variations to consider and needs to be more flexible
 # The current version assumes a single variable is given, and transforms it into a D matrix format
 
-#' Convert dataframe in long format into tibble with matrix columns
+#' Converts a dataframe where each variable is stored as a column, into a tibble with matrix columns
 #'
 #' @param TT Tibble in longer format, to convert into a tibble with matrix columns
 #' @param ColVarNames Column in TT where the variable names are stored
 #' @param NamesToWide Column in TT from which to read the names for the columns within each matrix column
 #' @param ValuesToWide Column in TT where the variable values are stored
 #'
-#' @return
+#' @return A tibble with matrix columns (D-matrix).
 #' @export
 #' @import tidyr dplyr purrr
 #'
@@ -283,16 +278,15 @@ Convert_T_to_D      <- function(TT,
 #  COUNTRY SELECTION AND FILTERING  #
 #####################################
 
-#' This function:
-#' - Filters historic data to keep only that relevant for the selected countries
-#' - It adapts templates and elements from the BaseList to match the new dimensions needed
+#' Filters historic data to keep only that relevant for the selected countries.
+#' It adapts templates and elements from the BaseList to match the new dimensions needed
 #'
 #' @param DD Tibble using matrix columns (D matrix) to be filtered
 #' @param FullBaseL List with pre-defined defaults and templates
 #' @param SelectedCountryList List of selected countries
 #' @param LocalUserScen List of all inputs from user, except the Countries selected
 #'
-#' @return
+#' @return A set of nested lists with the inputs needed to run SimpleCPAT() for a subset of countries.
 #' @export
 #' @import tidyr dplyr purrr
 #'
@@ -400,7 +394,6 @@ FocusCountry        <- function(DD,
       return(TreatedList)
 
 }
-
 
 
 

@@ -5,39 +5,69 @@ vignette: >
   %\VignetteIndexEntry{cpatr-intro}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  
 ---
+
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-library(dplyr)
+
 ```
 
-## Setting up
+## Overview of the *cpatr* package
+
+The *cpatr* package is being developed as a coded companion and potential alternative to the CPAT spreadsheet and the MT tool, given its ability to run multiple scenarios for several countries simultaneously.
+
+**In its current version, the *cpatr* package includes:**
+
+- Historical data on energy consumption, domestic and international fossil fuel prices, as well as static country-sector-fuel specific energy-consumption-related elasticities and emission factors. It also includes information on price controls and existing carbon taxes or ETS, with their respective carbon price and coverage.
+- The domestic price forecasting algorithm.
+- The energy demand function for non-power sectors.
+- A set of correspondences, lookups and templates for data-structures required for the model's operation. 
+- A set of convenience functions to transform the data structures for reporting purposes.
+
+**The model allows the user to:**
+
+- Define a single policy to be applied across one or multiple countries.
+- Forecast domestic prices, energy consumption and CO2 emissions for each scenario. Results are provided by country, sector and fuel.
+- Transform the data into structures easily usable for reporting purposes.
+
+**NOTE:** The *cpatr* package is in continuous development and it has the following key differences with respect to the spreadsheet version when considering the modeling pieces present in both.
+
+- Missing modeling blocks have required the use of dummy data for certain variables (e.g. post-policy GDP)
+- The level of detail in the spreadsheet version expands and contracts depending on the section covered. The *cpatr* package assumes a common level of detail in the processes that are currently implemented. This creates room for additional missing data, and requires rules for filling in the data.
+- The package does not have a power-sector model, and nor does it include a specific mechanism to forecast electricity prices.
+- For simplicity, policy coverage is assumed not to be subject to phase-out dynamics.
+
+Moreover, the current version has deprecated several rules to fill-in missing data in favor of implementing more structural solutions. Until these are all implemented, the existing version will show larger sets of missing data.
+
+
+## Installing the *cpatr* package.
 
 Before installing *cpatr*, any existing version of this package should be uninstalled:
 
-```{r eval=FALSE,include=TRUE}
+```{r, eval=FALSE,include=TRUE}
 remove.packages("cpatr")
 ```
 
-The *cpatr* package can then be installed either from Github, or locally --after having pulled the *cpatr* repo into the user's computer. Both alternatives require the *devtools* package to be installed:
+The *cpatr* package can then be installed either from Github, or locally --after having pulled the *cpatr* repo into the user's computer. Both alternatives require the *devtools* package to be installed and loaded:
 
-```{r eval=FALSE,include=TRUE}
-install.packages('devtools')
+```{r, eval=FALSE,include=TRUE}
+library(devtools)
 ```
 
 
-## Installing the *cpatr* package from Github
+### Option 1: Installing the *cpatr* package from Github
 
 Using *devtools*, we can now install *cpatr* from its Github repository.
 
 The *cpatr* package relies on pre-processed datasets covering both historical information, as well as the projection of some key variables. The data is included in the package. This can slow down the installation, taking more than the default time R expects it to take, and resulting into it providing 'timeout' errors. To avoid this, we increase the timeout threshold before running the installation commands:
 
 
-```{r eval=FALSE, include=TRUE}
+```{r, eval=FALSE, include=TRUE}
 # Increasing the timeout:
 options(timeout=9999999)
 
@@ -48,142 +78,313 @@ devtools::install_github('wb-mrio/cpatr',
 ```
 
 
-## Install locally in **RStudio console** 
+### Option 2: Installing the package locally in RStudio console 
 
 
 Alternatively, the package can be built from RStudio. Again, the *devtools* package is required for this. To do so, open the cpatr project in RStudio, and run the following two lines of code in the Console:  
 
-```{r eval=FALSE, include=TRUE}
+```{r, eval=FALSE, include=TRUE, warning=FALSE}
 devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))
 
 devtools::install(build_vignettes = TRUE, upgrade = 'never')
 ```
 
-**As result**  
 
-  *√  checking for file 'C:\Projects\CPAT\cpatr/DESCRIPTION' ...   
-  -  preparing 'cpatr': (1m 13.6s)  
-  √  checking DESCRIPTION meta-information ...  
-  -  installing the package to build vignettes  
-  √  creating vignettes (9.2s)  
-  -  checking for LF line-endings in source and make files and shell scripts (2.7s)  
-  -  checking for empty or unneeded directories  
-     Omitted 'LazyData' from DESCRIPTION  
-  -  building 'cpatr_0.0.0.9000.tar.gz'  *
-
-  &nbsp;
-    
 
 ## Using the *cpatr* package
 
-After installing, it the package can be loaded into the system to be used:
+Load the cpatr and other required packages into the system:
 
-```{r eval=FALSE, include=TRUE}
+```{r, eval=TRUE, include=TRUE, warning=FALSE}
+# Loading the CPAT-R package
 library(cpatr)
-```
 
-Information on package
-
-```{r eval=FALSE, include=TRUE}
-library(help = cpatr)
-```
-
-```{r eval=FALSE, include=TRUE}
-
-		Information on package ‘cpatr’
-
-Description:
-
-Package:            cpatr
-Title:              Fully Functional R-based twin of CPAT-Excel
-Version:            0.0.0.9000
-Authors@R:          c( CPAT team )
-Description:        cpatr development with the objective to open up CPAT to the general academic and policy design
-                    community
-License:            `use_mit_license()`, `use_gpl3_license()`
-Encoding:           UTF-8
-Roxygen:            list(markdown = TRUE)
-RoxygenNote:        7.2.1
-Imports:            dplyr, tidyr, purrr, DBI, RPostgres, stringr
-Suggests:           rmarkdown, knitr
-VignetteBuilder:    knitr
-NeedsCompilation:   no
-Packaged:           2022-09-14 21h10; db
-Author:             CPAT team 
-Built:              R 4.2.1; 
-
-# Index:
-# 
-# convert_tibble_matrix_to_tibble
-#                         Title
-# is.tibble.matrix        Title
-# mitigation_function     Title
-# tibble_to_tibble_matrix
-#                         Title
-# 
-# Further information is available in the following vignettes in directory
-# ‘C:/Users/aavan/Documents/R/win-library/4.1/cpatr/doc’:
-# 
-# cpatr-intro: cpatr-intro (source, pdf)
-```
-
-
-**Access the vignette**
-
-```{r eval=FALSE, include=TRUE}
-vignette('cpatr-intro')
-```
-
-
-**Access Data**
-
-```{r eval=FALSE, include=TRUE}
-data("DB")
-```
-
-
-### Testing CPAT's functionalities
-
-At this stage, the package comes with pre-loaded scenarios for testing purposes. These will be modifiable through an interface. We can check the effect of both scenarios, by running the following test:
-
-**NOTE**: cpatr still relies on dummy data or incomplete datasets. The need to fill in the blanks will create a warning message for the user. At this stage this is expected, and the warnings have not been muted to be able to track the impact of the next steps in the package's performance.
-
-```{r eval=FALSE, include=TRUE}
-
-# Loading other required packages:
+# Additional packages required for reporting purposes
 library(tidyverse)
 library(dplyr)
+```
+
+
+For practical purposes, the main function with which the user needs to interact is *SimpleCPAT()*. It reads the inputs, calls the respective modules and fills in the information for all projected years.
+There is a built-in version of each input that *SimpleCPAT()* requires, so the user can directly run it by calling the proper defaults, or it can provide specific inputs.
+
+*SimpleCPAT()* takes four inputs:
+
+- *FullHistoricalDataset*: Takes the historical data in the required format, covering all variables for every combination of Country, Sector and Fuel. This data comes preloaded into the package under the name of *DB_AllCountries*.
+
+```{r, eval=FALSE, include=TRUE}
+
+FullHistoricalDataset = cpatr::DB_AllCountries
+
+```
+
+- *FullBaseList*: Requires the templates for the data structures, global definitions, lookups, among others. The dataset used as input, can be found as
+
+```{r, eval=FALSE, include=TRUE}
+
+FullBaseList = cpatr::BaseList_AllCountries
+
+```
+
+
+- *UserScen*: The list of inputs that define the policy scenario. There are six elements required on this list. The user can retrieve the specifications of both by using the *BaselineInputs()* function:
+
+```{r, eval=FALSE, include=TRUE}
+
+# Each scenario is a list of parameters. The object below is hence a nested list.
+IncludedScenarios     <- cpatr::BaselineInputs(BaseL = BaseList_AllCountries)
+
+# To check the names of the elements that define one scenario in *cpatr*, we can run:
+head(IncludedScenarios$Scenario1)
+
+```
+
+Notice that, here, *head()* only provides the names the element in the list, with an entry in each. Some elements, however are a matrix on itself, and their dimension has to be respected.
+
+- *CountryList*: The vector of countries over which to run cpatr. These have to be provided in ISO3, with all capital letters. If all countries and regions are needed, the user can input:
+
+```{r, eval=FALSE, include=TRUE}
+
+# This vector contains more than 180 iso3 country codes.
+CountryList = cpatr::BaseList_AllCountries$SelCountry
+
+```
+
+As an alternative, the user can also provide detailed policy scenarios given the set of parameters available for modifications. This scenario will then be run for one or multiple countries.
+
+If this is the case, the user needs to specify the parameters defining the carbon tax trajectory and its coverage:
+
+
+```{r, eval=TRUE, include=TRUE}
+# Initializing the list
+UserScenario                  = list()
+
+# Parameters defining the carbon price trajectory
+UserScenario$CTintroYear      = 2030
+UserScenario$CTintroValue     = 20
+UserScenario$CTtargetYear     = 2040
+UserScenario$CTtargetValue    = 100
+
+# Fuel and sector coverage
+UserScenario$SelectedFuels    = c('nga', 'coa', 'oop', 'gso', 'die', 'lpg', 'ker')
+UserScenario$SelectedSectors  = c('res', 'foo', 'srv', 'mac')
+```
+
+
+
+### Running the package for a single country:
+
+The simplest test case would be to use the dummy policy scenario and test the function on a single country.
+Please note, at this stage the resulting data only captures a fraction of the modelling blocks included in the CPAT spreadsheet, and should not be used for reporting purposes.
+
+```{r, eval=TRUE, include=TRUE}
+
+# Reading the built-in scenarios
+IncludedScenarios     <- cpatr::BaselineInputs(BaseL = BaseList_AllCountries)
 
 # Running CPAT for all countries, for two scenarios:
-Tests   <- cpatr::SimpleCPAT(DB,
-                             BaseList)
+TestSingleCountry   <- cpatr::SimpleCPAT(FullHistoricDataset = DB_AllCountries,
+                                         FullBaseList        = BaseList_AllCountries,
+                                         UserScen            = IncludedScenarios$Scenario2,
+                                         CountryList         = 'USA')
 
+```
+
+Note that, despite the selection of a single country, the inputs still contain data for all countries.
+The resulting object *TestSingleCountry* will be a list of dataframes. Each scenario will be stored in a separate dataframe, where the time series for each variable is recorded as a matrix column.
+
+We can have a look at the structure of the output for the baseline scenario:
+
+```{r, eval = TRUE, include=TRUE}
 # Retrieving the information for any given scenario
 # We can observe the evolution of the baseline for the variables currently considered in cpatr, by selecting this scenario from the object created above:
-head(Tests$Scenario1)
+head(TestSingleCountry$Scenario1)
+```
 
-# To retrieve a particular variable, for instance, the forecast of diesel consumed by the food industry in the US and UK, or its retail price, we can first filter the data as follows. Note that this uses the pipe operator '%>%' from the dplyr and tidyverse packages.
-ExampleExtraction     <- Tests$Scenario1 %>%
-                          filter(CountryCode %in% c('USA', 'GBR'),
-                                 SectorCode  == 'foo',
+To retrieve a particular variable, for instance, the forecast of diesel consumed by the food industry in the selected country, or its retail price, we can first filter the data as follows. Note that this uses the pipe operator '%>%' from the dplyr and tidyverse packages.
+
+```{r, eval = TRUE, include=TRUE}
+
+ExampleExtrSingleC    <- TestSingleCountry$Scenario1 %>%
+                          filter(SectorCode  == 'foo',
                                  FuelCode    == 'die')
 
 # Once filtered, we can select the variables of interest:
-ExampleEnergyCons     <- ExampleExtraction %>%
+ExampleEnergyConsSC   <- ExampleExtrSingleC %>%
                           select(CountryCode, SectorCode, FuelCode, ec)
 
-ExampleRetailPrice    <- ExampleExtraction %>%
+ExampleRetailPriceSC  <- ExampleExtrSingleC %>%
                           select(CountryCode, SectorCode, FuelCode, p)
+
 
 ```
 
-To run any additional operations with these data, it is much more convenient to extract only the data matrix, provided we know what is giving the order of the rows (in this case, the countries: USA and GBR):
 
-```{r eval=FALSE, include=TRUE}
-# For this two countries, the data can be obtained by simply calling the variable as a column. In this case, the column will be on itself a matrix, where the rows will represent the selected countries, sectors and fuels, and the columns the years.
-ExampleEnergyCons$ec
+### Running the package for multiple countries:
 
-# Note that this can also be done with the initial set of data prior to the filtering (the rows will be the same as those in Tests$Scenario1)
-Tests$Scenario1$ec
+Consider now the case where the model is run for multiple countries simultaneously, for a user-defined scenario
+
+
+```{r, eval=TRUE, include=TRUE}
+
+# Policy scenario definition:
+UserScenario                  = list()
+
+# Parameters defining the carbon price trajectory
+UserScenario$CTintroYear      = 2030
+UserScenario$CTintroValue     = 20
+UserScenario$CTtargetYear     = 2040
+UserScenario$CTtargetValue    = 100
+
+# Fuel and sector coverage
+UserScenario$SelectedFuels    = c('nga', 'coa', 'oop', 'gso', 'die', 'lpg', 'ker')
+UserScenario$SelectedSectors  = c('res', 'foo', 'srv')
+
+
+# Running CPAT for two countries, for two scenarios:
+TestMultiCountry    <- cpatr::SimpleCPAT(FullHistoricDataset = DB_AllCountries,
+                                         FullBaseList        = BaseList_AllCountries,
+                                         UserScen            = UserScenario,
+                                         CountryList         = c('USA', 'ZAF'))
+
+```
+
+Again, the output will be a list of dataframes, where each dataframe will store the simulations of a particular scenario.
+
+```{r, eval = TRUE, include=TRUE}
+# Retrieving the information for any given scenario
+# We can observe the evolution of the baseline for the variables currently considered in cpatr, by selecting this scenario from the object created above:
+head(TestMultiCountry$Scenario1)
+```
+
+To retrieve a particular variable, for instance, the forecast of diesel consumed by the food industry in the selected country, or its retail price, we can first filter the data as follows. Note that this uses the pipe operator '%>%' from the dplyr and tidyverse packages.
+
+```{r, eval = TRUE, include=TRUE}
+
+ExampleExtrMultiC     <- TestMultiCountry$Scenario1 %>%
+                          filter(SectorCode  == 'foo',
+                                 FuelCode    == 'die')
+
+# Once filtered, we can select the variables of interest:
+ExampleEnergyConsMC   <- ExampleExtrMultiC %>%
+                          select(CountryCode, SectorCode, FuelCode, ec)
+
+ExampleRetailPriceMC  <- ExampleExtrMultiC %>%
+                          select(CountryCode, SectorCode, FuelCode, p)
+
+# Printing one of these as an example:
+ExampleRetailPriceMC
+
+```
+
+
+### Transforming data into structures useful for reporting purposes
+
+While the dataframes where data is stored in matrix columns is particularly useful for modeling purposes, it is not the best structure for reporting. Hence, the data should be transformed into tables that allow for simpler aggregation, comparison and reporting.
+
+The *cpatr* package includes some conveniences functions to perform this transformation. In this case, the intention is to move from a dataframe with matrix columns (what we call a "D-matrix") into a table with the variables presented in longer format. This can be done using the *Convert_D_to_T()* function. Consider the case of the results obtained for multiple countries:
+
+```{r, eval=TRUE, include=TRUE}
+
+# After the conversion, notice it is convenient to rename the numerical column to take the name of the scenario
+BaselineResults     <- Convert_D_to_T(DD = TestMultiCountry$Scenario1) %>%
+                        rename('Baseline' = 'Value')
+
+# Policy scenario, including the renaming of the numerical column
+PolicyResults       <- Convert_D_to_T(DD = TestMultiCountry$Scenario2) %>%
+                        rename('CarbonTax' = 'Value')
+
+  
+```
+
+Once each scenario has been transformed, we can combine the results into a single table. The resulting dataframe may be arranged into multiple ways depending on the type of analysis desired. The example below provides a generic use-case:
+
+```{r, eval=TRUE, include=TRUE}
+
+# Combining the outputs into a single table, where the results of each scenario are contained in a separate column.
+CombinedResults     <- BaselineResults %>%
+                        left_join(PolicyResults, by = c('CountryCode', 'SectorCode', 'FuelCode',
+                                                        'Year', 'AdValFixed', 'Variable')) %>%
+                        # Computing the variations with respect to the baseline:
+                        mutate(AbsVar = CarbonTax - Baseline,
+                               RelVar = AbsVar/Baseline)
+
+# Checking the resulting table
+CombinedResults
+
+```
+
+
+We can then focus, for instance, on reporting the absolute variation of a particular variable between the policy scenario and the baseline, for a subset of sectors and fuels:
+
+```{r,eval=TRUE, include=TRUE}
+
+DataRelVar          <- CombinedResults %>%
+                        filter(Variable == 'em',
+                               FuelCode %in% c('gso'),
+                               SectorCode %in% c('srv')) %>%
+                        mutate(RelVar = RelVar*100)
+
+
+# Creating the plot for the relative variation
+g.RelVar            <- ggplot(DataRelVar, aes(x = Year, y = RelVar, group = CountryCode)) +
+                        geom_line(aes(linetype = CountryCode, color = CountryCode)) +
+                        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+                        labs(x = "Year", y = "Relative variation wrt Baseline (percentage points)") +
+                        ggtitle("Relative variation of emissions from gasoline used by the service sector")
+
+
+```
+
+```{r, fig.width=7,fig.height=4}
+# Printing the plot
+g.RelVar
+
+```
+
+
+Moreover, we may instead be interested on reporting aggregate values by country. Consider the case where we search the aggregate emissions by country and its relative change with respect to the baseline.
+
+```{r, eval=TRUE, include=TRUE}
+
+# In this case, the absolute and relative variations will be computed after doing the aggregation
+CombinedResults2    <- BaselineResults %>%
+                        left_join(PolicyResults, by = c('CountryCode', 'SectorCode', 'FuelCode',
+                                                        'Year', 'AdValFixed', 'Variable')) %>%
+                        # Keeping only values for emissions
+                        filter(Variable == 'em') %>%
+                        pivot_longer(c(Baseline, CarbonTax), names_to = 'Scenario', values_to = 'Value') %>%
+                        # The grouping is specific to the desired operation
+                        group_by(CountryCode, Year, Scenario) %>%
+                        # Aggregating values within a country
+                        summarise(Total = sum(Value, na.rm = TRUE), .groups = 'keep') %>%
+                        ungroup() %>%
+                        # Re-arranging and computing the relative change between scenarios:
+                        pivot_wider(values_from = Total, names_from = Scenario) %>%
+                        mutate(AbsVar = CarbonTax - Baseline,
+                               RelVar = (AbsVar/Baseline) * 100)
+                        
+
+
+
+```
+Plotting the obtained results:
+
+```{r,eval=TRUE, include=TRUE}
+
+
+# Creating the plot for the relative variation
+g.RelVarAgg       <- ggplot(CombinedResults2, aes(x = Year, y = RelVar, group = CountryCode)) +
+                        geom_line(aes(linetype = CountryCode, color = CountryCode)) +
+                        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+                        labs(x = "Year", y = "Relative variation (percentage points)") +
+                        ggtitle("Change in total emissions with respect to Baseline")
+
+
+```
+
+```{r, fig.width=7,fig.height=4}
+# Printing the plot
+g.RelVarAgg
 
 ```

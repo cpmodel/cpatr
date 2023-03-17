@@ -1,22 +1,3 @@
-# rm(list=ls())
-
-# You can learn more about package authoring with RStudio at:
-#
-#   http://r-pkgs.had.co.nz/
-#
-# Some useful keyboard shortcuts for package authoring:
-#
-#   Install Package:           'Ctrl + Shift + B'
-#   Check Package:             'Ctrl + Shift + E'
-#   Test Package:              'Ctrl + Shift + T'
-
-#########################
-#  INITIALIZING CPAT R  #
-#########################
-
-# source('R/T01_ConfigSimplifiedCPAT.R')
-
-
 
 #########################################################################
 #  SIMPLIFIED VERSION OF CPAT: MITIGATION EQUATION AND PRICE ALGORITHM  #
@@ -29,11 +10,11 @@
 #' @param UserScen Scenario parameters provided by the user
 #' @param CountryList List of countries selected by the user
 #'
-#' @return
+#' @return Results by scenario. The output for each scenario is presented in a tibble where each numerical variable is
+#' recorded as a vector or 'matrix column'. The tibble has CountryCode, FuelCode and SectorCode as indexing columns for all variables.
 #' @export
 #' @import tidyr dplyr purrr tidyverse readxl readr stringr
-#'
-#' @examples
+
 
 SimpleCPAT        <- function(FullHistoricDataset,
                               FullBaseList,

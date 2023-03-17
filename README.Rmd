@@ -7,19 +7,61 @@ output: html_document
 
 This [R](https://www.R-project.org/) package
 
-### Install from Github
+Before installing *cpatr*, any existing version of this package should be uninstalled:
 
-The process requires the *devtools* package to be installed in R.
+```{r eval=FALSE,include=TRUE}
+remove.packages("cpatr")
+```
+
+The *cpatr* package can then be installed either from Github, or locally --after having pulled the *cpatr* repo into the user's computer. Both alternatives require the *devtools* package to be installed:
+
+```{r eval=FALSE,include=TRUE}
+install.packages('devtools')
+```
+
+
+## Installing the *cpatr* package from Github
+
+Using *devtools*, we can now install *cpatr* from its Github repository.
+
+The *cpatr* package relies on pre-processed datasets covering both historical information, as well as the projection of some key variables. The data is included in the package. This can slow down the installation, taking more than the default time R expects it to take, and resulting into it providing 'timeout' errors. To avoid this, we increase the timeout threshold before running the installation commands:
+
 
 ```{r eval=FALSE, include=TRUE}
+# Increasing the timeout:
+options(timeout=9999999)
 
-# Remove existing version of the package
-remove.packages('cpatr')
+# Installing from github once the repo has been as "public" (no token required here)
+devtools::install_github('wb-mrio/cpatr',
+                         upgrade = 'never',
+                         dependencies = T)
+```
 
+
+## Install locally in **RStudio console** 
+
+
+Alternatively, the package can be built from RStudio. Again, the *devtools* package is required for this. To do so, open the cpatr project in RStudio, and run the following two lines of code in the Console:  
+
+```{r eval=FALSE, include=TRUE}
 devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))
 
 devtools::install(build_vignettes = TRUE, upgrade = 'never')
 ```
+
+**As result**  
+
+  *√  checking for file 'C:\Projects\CPAT\cpatr/DESCRIPTION' ...   
+  -  preparing 'cpatr': (1m 13.6s)  
+  √  checking DESCRIPTION meta-information ...  
+  -  installing the package to build vignettes  
+  √  creating vignettes (9.2s)  
+  -  checking for LF line-endings in source and make files and shell scripts (2.7s)  
+  -  checking for empty or unneeded directories  
+     Omitted 'LazyData' from DESCRIPTION  
+  -  building 'cpatr_0.0.0.9000.tar.gz'  *
+
+  &nbsp;
 
 
 
