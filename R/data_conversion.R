@@ -1,5 +1,6 @@
 library(cpatr)
 library(tidyverse)
+library(purrr)
 
 # Initializing the list
 UserScenario                  = list()
@@ -39,3 +40,31 @@ for (i in variables){
             row.names=FALSE)
 }
 
+
+FullBaseList = cpatr::BaseList_AllCountries
+
+for (element in names(FullBaseList)) {
+  if (!'list' %in% class(FullBaseList[[element]])){
+    if ('character' %in% class(FullBaseList[[element]]) |
+        'numeric' %in% class(FullBaseList[[element]])){
+      write.csv(FullBaseList[element], file = paste0(element, ".csv"),
+                row.names = FALSE)
+    } else {
+      matrix_columns = sub(".*\\.", "", colnames(as.data.frame(FullBaseList[element])))
+      temp <- as.data.frame(FullBaseList[element])
+      colnames(temp) <- matrix_columns
+      write.csv(temp, file = paste0(element, ".csv"),
+                row.names = FALSE)
+    }
+  } else {
+    for (LU_element in names(FullBaseList[[element]])){
+        print(LU_element)
+        print(element)
+        matrix_columns = sub(".*\\.", "", colnames(as.data.frame(FullBaseList[[element]][LU_element])))
+        temp <- as.data.frame(FullBaseList[[element]][LU_element])
+        colnames(temp) <- matrix_columns
+        write.csv(temp, file = paste0(element, "_", LU_element, ".csv"),
+                  row.names = FALSE)
+    }
+  }
+}
