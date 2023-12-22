@@ -228,6 +228,11 @@ BaseList          <- FilteredData$BaseL
 # DD = FullHistoricalDataset
 RawGDPRelativeToBase = RInputs_RawGDPRelativeToBase
 
+write_csv(RInputs_RawGDPRelativeToBase, "data_py/RawGDPRelativeToBase.csv")
+write_csv(RInputs_InternationalPrices_RegionMarket, "data_py/InternationalPrices_RegionMarket.csv")
+write_csv(RInputs_InternationalPrices_IntPrices, "data_py/InternationalPrices_IntPrices.csv")
+write_csv(RInputs_InternationalPrices_RegionAssumptions, "data_py/InternationalPrices_RegionAssumptions.csv")
+
 # Base year for monetary values: To be read as a user-defined parameter
 # Projections of GDP growth can be recomputed based on this
 BaseY               <- BaseList$MonBaseYear
