@@ -73,9 +73,12 @@ if (!file.exists(conv_price_loc)){
   dir.create(conv_price_loc)
 }
 
-write_csv(RInputs_InternationalPrices_RegionMarket, paste0(conv_price_loc, "InternationalPrices_RegionMarket.csv"))
-write_csv(RInputs_InternationalPrices_IntPrices, paste0(conv_price_loc, "InternationalPrices_IntPrices.csv"))
-write_csv(RInputs_InternationalPrices_RegionAssumptions, paste0(conv_price_loc, "InternationalPrices_RegionAssumptions.csv"))
+write_csv(RInputs_InternationalPrices_RegionMarket,
+          paste0(conv_price_loc, "RegionMarket.csv"))
+write_csv(RInputs_InternationalPrices_IntPrices,
+          paste0(conv_price_loc, "IntPrices.csv"))
+write_csv(RInputs_InternationalPrices_RegionAssumptions,
+          paste0(conv_price_loc, "RegionAssumptions.csv"))
 
 conv_gdp_loc <- paste0(results_loc, "GDP_AllCountries/")
 
