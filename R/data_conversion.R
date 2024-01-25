@@ -30,8 +30,16 @@ for (i in variables){
   tempdata <- cbind(placeholder_id, tempdata)
   assign(i, tempdata)
 
-  write.csv(get(i), paste0(conv_db_loc, paste0(i,".csv")),
-            row.names=FALSE)
+  if (i == "XCT"){
+    write.csv(get(i), paste0(conv_db_loc, "XCT_pCO2.csv"),
+              row.names=FALSE)
+  } else if (i == "XETSP") {
+    write.csv(get(i), paste0(conv_db_loc, "XETSP_pCO2.csv"),
+              row.names=FALSE)
+  } else {
+    write.csv(get(i), paste0(conv_db_loc, paste0(i,".csv")),
+              row.names=FALSE)
+  }
 }
 
 # Extracting BaseList_AllCountries
@@ -45,19 +53,21 @@ for (element in names(FullBaseList)) {
   if (!'list' %in% class(FullBaseList[[element]])){
     if ('character' %in% class(FullBaseList[[element]]) |
         'numeric' %in% class(FullBaseList[[element]])){
-      write.csv(FullBaseList[element], file = paste0(element, ".csv"),
-                row.names = FALSE)
-    } else {
+      print(element)
       matrix_columns = sub(".*\\.", "", colnames(as.data.frame(FullBaseList[element])))
       temp <- as.data.frame(FullBaseList[element])
       colnames(temp) <- matrix_columns
       write.csv(temp, file = paste0(conv_base_loc, paste0(element, ".csv")),
                 row.names = FALSE)
+    } else {
+      print(element)
+      write.csv(FullBaseList[element], file = paste0(element, ".csv"),
+                row.names = FALSE)
     }
   } else {
     for (LU_element in names(FullBaseList[[element]])){
         print(LU_element)
-        print(element)
+        # print(element)
         matrix_columns = sub(".*\\.", "", colnames(as.data.frame(FullBaseList[[element]][LU_element])))
         temp <- as.data.frame(FullBaseList[[element]][LU_element])
         colnames(temp) <- matrix_columns
